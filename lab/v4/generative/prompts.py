@@ -346,3 +346,97 @@ def build_fidelity_v41_prompt(
         )
     # Variant A: explicitly no semantic blueprint text
     return "\n".join(parts).rstrip() + "\n"
+
+
+# --- V4.2 unseen pack: stylized-dimensionality gummy ---
+
+V42_GUMMY_STYLIZED_DIM = (
+    "STYLIZED 3D dimensionality — exaggerated soft inflated sculpted toy / sticker / candy-object. "
+    "Aggressive volume, softness, material richness, and charm. "
+    "Translucent gelatin gummy with internal color depth, embedded micro-bubbles, wet rounded "
+    "highlights, soft internal glow, squishy tactile candy feel. "
+    "NOT a photoreal food photo, NOT a grocery product shot, NOT hard plastic, NOT a flat 2.5D "
+    "extruded slab, NOT a mechanical CAD extrusion, NOT clay, NOT plush, NOT hard glossy resin."
+)
+
+
+def build_v42_unseen_gummy_prompt(
+    recognition: dict,
+    *,
+    multi_image: bool = True,
+    n_style_refs: int = 2,
+) -> str:
+    """Strict recognition-driven gummy prompt for V4.2 unseen pack (stylized dimensionality)."""
+    sid = recognition.get("id", "?")
+    hyp = recognition.get("subject_hypothesis", "unknown subject")
+    conf = recognition.get("confidence", 0.0)
+    observed = recognition.get("observed_components") or []
+    inferred = recognition.get("inferred_components") or []
+    allowed = recognition.get("allowed_completion") or []
+    forbidden = recognition.get("forbidden_additions") or []
+    color_notes = recognition.get("color_notes")
+
+    if multi_image and n_style_refs >= 2:
+        style_block = (
+            "PRIMARY = <IMAGE_0> (the user's doodle — visual source of truth). "
+            "<IMAGE_1> and <IMAGE_2> are Jelly-Gummy style references for FORM/MATERIAL ONLY — "
+            "do NOT copy their rocket or flower identity, silhouette, or subject.\n"
+            f"Material / look: {V42_GUMMY_STYLIZED_DIM}"
+        )
+    elif multi_image and n_style_refs == 1:
+        style_block = (
+            "PRIMARY = <IMAGE_0> (the user's doodle — visual source of truth). "
+            "<IMAGE_1> is a Jelly-Gummy style reference for FORM/MATERIAL ONLY — "
+            "do NOT copy its subject identity or silhouette.\n"
+            f"Material / look: {V42_GUMMY_STYLIZED_DIM}"
+        )
+    else:
+        style_block = f"Material / look (text-described): {V42_GUMMY_STYLIZED_DIM}"
+
+    def _bullets(items):
+        if not items:
+            return "- (none)"
+        return "\n".join(f"- {x}" for x in items)
+
+    low_conf_extra = ""
+    if float(conf) < 0.75 or "zigzag" in str(hyp).lower() or sid == "u06":
+        low_conf_extra = (
+            "\nLOW-CONFIDENCE RULE: Do NOT reinvent as a different object (no snake/dragon/face). "
+            "Keep a soft translucent gummy ribbon/tube that faithfully follows the drawn zigzag path "
+            "and peak count. Preserve the green color family.\n"
+        )
+
+    color_line = ""
+    if color_notes:
+        color_line = f"\nColor family: {color_notes}. Preserve the doodle's color family if colored.\n"
+
+    return (
+        'Core: "Understand what I drew, then make MY version beautiful."\n'
+        "POLISH THE USER'S DOODLE into a single centered isolated gummy candy-object / sticker.\n"
+        "Clean presentation on transparent or pure white void. No scene, floor, ground, text, "
+        "drop shadow, or environment.\n"
+        f"{style_block}\n"
+        "\n"
+        "Recognition (STRICT — encode and obey these fields):\n"
+        f"subject_hypothesis: {hyp}\n"
+        f"confidence: {conf}\n"
+        f"observed_components:\n{_bullets(observed)}\n"
+        f"inferred_components (volume/material hints ONLY — not permission to invent geometry):\n"
+        f"{_bullets(inferred)}\n"
+        f"allowed_completion:\n{_bullets(allowed)}\n"
+        f"forbidden_additions (HARD BANS):\n{_bullets(forbidden)}\n"
+        f"{color_line}"
+        f"{low_conf_extra}"
+        "\n"
+        "Hard preserve (doodle fidelity / authorship):\n"
+        "- Absolute object identity from the doodle.\n"
+        "- Silhouette, proportions, component count, asymmetry, quirks.\n"
+        "- Color family if the doodle is colored.\n"
+        "- Delight comes from volume/material ONLY — do NOT add eyes, mouths, limbs, or decor "
+        "unless those marks are observed in the doodle.\n"
+        "\n"
+        "Stylized dimensionality (push hard):\n"
+        "- Inflated soft sculpted toy/sticker/candy-object with exaggerated plump volume.\n"
+        "- Soft rounded forms, squishy gelatin, internal glow, wet candy highlights, bubbles.\n"
+        "- Prefer charming stylized 3D illustration over photorealism.\n"
+    )
