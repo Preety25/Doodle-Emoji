@@ -130,7 +130,7 @@
   "render": {
     "engine": "BLENDER_EEVEE_NEXT",
     "resolution": 1024,
-    "samples": 48,
+    "samples": 32,
     "film_transparent": true,
     "bloom": false
   }

@@ -238,12 +238,20 @@ def create_closed_filled_v2(bpy, name: str, points: list, recipe_geom: dict):
         bpy.ops.object.modifier_apply(modifier=mod.name)
 
     bpy.ops.object.shade_smooth()
+    import math
     import mathutils
+    # Face-toward-camera: doodle drawn in XY (normal +Z). Rotate -90° about X so
+    # the silhouette faces -Y (default camera) and extrusion depth goes into +Y.
+    # Front inflate (done in +Z above) becomes a bulge toward the camera.
+    if bool(recipe_geom.get("face_toward_camera", True)):
+        mesh_obj.rotation_euler = (math.radians(-90.0), 0.0, 0.0)
+        bpy.ops.object.transform_apply(location=False, rotation=True, scale=False)
     bpy.context.view_layer.update()
     bbox = [mesh_obj.matrix_world @ mathutils.Vector(c) for c in mesh_obj.bound_box]
-    zmin = min(v.z for v in bbox)
-    zmax = max(v.z for v in bbox)
-    mesh_obj.location.z -= (zmin + zmax) * 0.5
+    min_c = mathutils.Vector((min(v.x for v in bbox), min(v.y for v in bbox), min(v.z for v in bbox)))
+    max_c = mathutils.Vector((max(v.x for v in bbox), max(v.y for v in bbox), max(v.z for v in bbox)))
+    center = (min_c + max_c) * 0.5
+    mesh_obj.location -= center
     bpy.ops.object.transform_apply(location=True, rotation=False, scale=False)
     return mesh_obj
 
@@ -286,6 +294,10 @@ def create_open_tube(bpy, name: str, points: list, recipe_geom: dict):
             mod.iterations = smooth_iters
             mod.factor = 0.35
             bpy.ops.object.modifier_apply(modifier=mod.name)
+        if bool(recipe_geom.get("face_toward_camera", True)):
+            import math
+            mesh_obj.rotation_euler = (math.radians(-90.0), 0.0, 0.0)
+            bpy.ops.object.transform_apply(location=False, rotation=True, scale=False)
 
     bpy.ops.object.shade_smooth()
     return mesh_obj
