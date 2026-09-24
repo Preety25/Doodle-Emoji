@@ -1,0 +1,84 @@
+{
+  "folder": "/workspace/out/v3/12_messy_incomplete",
+  "panels": {
+    "C_gummy": {
+      "empty": false,
+      "touch_border": false,
+      "fill": 0.0791,
+      "span": 0.707,
+      "bounds": [
+        161,
+        151,
+        858,
+        875
+      ],
+      "band_score": 14.636,
+      "mean_rgb": [
+        146.0,
+        102.8,
+        152.3
+      ],
+      "missing": false
+    },
+    "D_clay": {
+      "empty": false,
+      "touch_border": false,
+      "fill": 0.0701,
+      "span": 0.707,
+      "bounds": [
+        161,
+        151,
+        858,
+        875
+      ],
+      "band_score": 6.55,
+      "mean_rgb": [
+        167.5,
+        125.3,
+        166.5
+      ],
+      "missing": false
+    },
+    "E_plush": {
+      "empty": false,
+      "touch_border": false,
+      "fill": 0.0899,
+      "span": 0.7041,
+      "bounds": [
+        158,
+        153,
+        860,
+        874
+      ],
+      "band_score": 3.0,
+      "mean_rgb": [
+        186.8,
+        145.8,
+        193.3
+      ],
+      "missing": false
+    },
+    "F_glossy": {
+      "empty": false,
+      "touch_border": false,
+      "fill": 0.064,
+      "span": 0.707,
+      "bounds": [
+        160,
+        151,
+        859,
+        875
+      ],
+      "band_score": 8.968,
+      "mean_rgb": [
+        175.1,
+        131.1,
+        187.5
+      ],
+      "missing": false
+    }
+  },
+  "plush_fill_minus_clay": 0.0198,
+  "clay_vs_glossy_luma": 11.47,
+  "max_band_score": 14.636
+}

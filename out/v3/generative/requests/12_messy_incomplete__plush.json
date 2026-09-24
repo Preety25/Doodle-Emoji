@@ -1,0 +1,16 @@
+{
+  "style": "plush",
+  "source_id": "12_messy_incomplete",
+  "doodle_png": "/workspace/out/v3/12_messy_incomplete/A_original.png",
+  "prompt": "POLISH THE USER'S DOODLE. Do not replace it with a generic object.\nEdit the provided doodle image into a single centered sticker on a transparent background.\nStyle: plush. stuffed plush toy with a soft fiber pile and a tactile stitched feel. Puffy but clearly fabric, not smooth clay and not plastic.\n\nHard preserve constraints:\n- Keep the subject identity implied by the doodle and the semantic blueprint.\n- Keep the silhouette, major part count, and part placement.\n- Keep distinctive proportions and the user's asymmetry. Do not mirror.\n- Do not remove a meaningful doodle feature.\n- Do not add arbitrary decoration, text, a background scene, a ground plane, or a drop shadow.\n- Do not invent a face, eyes, or a mouth unless the blueprint says those strokes exist.\n- If confidence is LOW, only clean up the existing strokes. Do not decide they are a star, animal, or any other object.\n\nSemantic blueprint:\nsubject_hypothesis: unresolved_gesture\nconfidence: LOW\norientation: as_drawn\ncomponents:\n- partial (stroke (partial)): role=stroke strokes=partial\n- scribble (stroke (scribble)): role=stroke strokes=scribble\n- orphan (closed mark (orphan)): role=mark strokes=orphan\nrelationships:\n- unrelated_fragments: fragments are not connected into a single invented silhouette\nfeatures_must_preserve:\n- each source stroke remains visible\n- open strokes stay open\n- the small closed fragment stays a small fragment\n- relative placement of the three marks\nfeatures_may_complete:\n- round caps and even out stroke radius\n- light smoothing of jitter\nfeatures_must_never_invent:\n- close the partial into a star\n- invent a face, object, or character\n- add the missing points that would finish a symbol\n- drop the orphan loop or the scribble\n- a ground, frame, or caption\n",
+  "blueprint_summary": "subject_hypothesis: unresolved_gesture\nconfidence: LOW\norientation: as_drawn\ncomponents:\n- partial (stroke (partial)): role=stroke strokes=partial\n- scribble (stroke (scribble)): role=stroke strokes=scribble\n- orphan (closed mark (orphan)): role=mark strokes=orphan\nrelationships:\n- unrelated_fragments: fragments are not connected into a single invented silhouette\nfeatures_must_preserve:\n- each source stroke remains visible\n- open strokes stay open\n- the small closed fragment stays a small fragment\n- relative placement of the three marks\nfeatures_may_complete:\n- round caps and even out stroke radius\n- light smoothing of jitter\nfeatures_must_never_invent:\n- close the partial into a star\n- invent a face, object, or character\n- add the missing points that would finish a symbol\n- drop the orphan loop or the scribble\n- a ground, frame, or caption",
+  "negative": [
+    "generic replacement object",
+    "extra parts not in the blueprint",
+    "text",
+    "background",
+    "ground plane",
+    "invented face",
+    "melted or fused fins/ears"
+  ]
+}

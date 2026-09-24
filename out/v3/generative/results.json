@@ -1,0 +1,227 @@
+{
+  "status": "BLOCKED_NO_API",
+  "keys": {
+    "OPENAI_API_KEY": false,
+    "GEMINI_API_KEY": false,
+    "GOOGLE_API_KEY": false,
+    "REPLICATE_API_TOKEN": false
+  },
+  "rows": [
+    {
+      "source_id": "02_heart",
+      "style": "gummy",
+      "request": "/workspace/out/v3/generative/requests/02_heart__gummy.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/02_heart__gummy.png",
+      "meta": null
+    },
+    {
+      "source_id": "02_heart",
+      "style": "clay",
+      "request": "/workspace/out/v3/generative/requests/02_heart__clay.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/02_heart__clay.png",
+      "meta": null
+    },
+    {
+      "source_id": "02_heart",
+      "style": "plush",
+      "request": "/workspace/out/v3/generative/requests/02_heart__plush.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/02_heart__plush.png",
+      "meta": null
+    },
+    {
+      "source_id": "02_heart",
+      "style": "glossy",
+      "request": "/workspace/out/v3/generative/requests/02_heart__glossy.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/02_heart__glossy.png",
+      "meta": null
+    },
+    {
+      "source_id": "06_rocket",
+      "style": "gummy",
+      "request": "/workspace/out/v3/generative/requests/06_rocket__gummy.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/06_rocket__gummy.png",
+      "meta": null
+    },
+    {
+      "source_id": "06_rocket",
+      "style": "clay",
+      "request": "/workspace/out/v3/generative/requests/06_rocket__clay.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/06_rocket__clay.png",
+      "meta": null
+    },
+    {
+      "source_id": "06_rocket",
+      "style": "plush",
+      "request": "/workspace/out/v3/generative/requests/06_rocket__plush.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/06_rocket__plush.png",
+      "meta": null
+    },
+    {
+      "source_id": "06_rocket",
+      "style": "glossy",
+      "request": "/workspace/out/v3/generative/requests/06_rocket__glossy.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/06_rocket__glossy.png",
+      "meta": null
+    },
+    {
+      "source_id": "07_teddy",
+      "style": "gummy",
+      "request": "/workspace/out/v3/generative/requests/07_teddy__gummy.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/07_teddy__gummy.png",
+      "meta": null
+    },
+    {
+      "source_id": "07_teddy",
+      "style": "clay",
+      "request": "/workspace/out/v3/generative/requests/07_teddy__clay.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/07_teddy__clay.png",
+      "meta": null
+    },
+    {
+      "source_id": "07_teddy",
+      "style": "plush",
+      "request": "/workspace/out/v3/generative/requests/07_teddy__plush.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/07_teddy__plush.png",
+      "meta": null
+    },
+    {
+      "source_id": "07_teddy",
+      "style": "glossy",
+      "request": "/workspace/out/v3/generative/requests/07_teddy__glossy.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/07_teddy__glossy.png",
+      "meta": null
+    },
+    {
+      "source_id": "05_plant",
+      "style": "gummy",
+      "request": "/workspace/out/v3/generative/requests/05_plant__gummy.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/05_plant__gummy.png",
+      "meta": null
+    },
+    {
+      "source_id": "05_plant",
+      "style": "clay",
+      "request": "/workspace/out/v3/generative/requests/05_plant__clay.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/05_plant__clay.png",
+      "meta": null
+    },
+    {
+      "source_id": "05_plant",
+      "style": "plush",
+      "request": "/workspace/out/v3/generative/requests/05_plant__plush.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/05_plant__plush.png",
+      "meta": null
+    },
+    {
+      "source_id": "05_plant",
+      "style": "glossy",
+      "request": "/workspace/out/v3/generative/requests/05_plant__glossy.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/05_plant__glossy.png",
+      "meta": null
+    },
+    {
+      "source_id": "09_rose",
+      "style": "gummy",
+      "request": "/workspace/out/v3/generative/requests/09_rose__gummy.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/09_rose__gummy.png",
+      "meta": null
+    },
+    {
+      "source_id": "09_rose",
+      "style": "clay",
+      "request": "/workspace/out/v3/generative/requests/09_rose__clay.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/09_rose__clay.png",
+      "meta": null
+    },
+    {
+      "source_id": "09_rose",
+      "style": "plush",
+      "request": "/workspace/out/v3/generative/requests/09_rose__plush.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/09_rose__plush.png",
+      "meta": null
+    },
+    {
+      "source_id": "09_rose",
+      "style": "glossy",
+      "request": "/workspace/out/v3/generative/requests/09_rose__glossy.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/09_rose__glossy.png",
+      "meta": null
+    },
+    {
+      "source_id": "12_messy_incomplete",
+      "style": "gummy",
+      "request": "/workspace/out/v3/generative/requests/12_messy_incomplete__gummy.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/12_messy_incomplete__gummy.png",
+      "meta": null
+    },
+    {
+      "source_id": "12_messy_incomplete",
+      "style": "clay",
+      "request": "/workspace/out/v3/generative/requests/12_messy_incomplete__clay.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/12_messy_incomplete__clay.png",
+      "meta": null
+    },
+    {
+      "source_id": "12_messy_incomplete",
+      "style": "plush",
+      "request": "/workspace/out/v3/generative/requests/12_messy_incomplete__plush.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/12_messy_incomplete__plush.png",
+      "meta": null
+    },
+    {
+      "source_id": "12_messy_incomplete",
+      "style": "glossy",
+      "request": "/workspace/out/v3/generative/requests/12_messy_incomplete__glossy.json",
+      "api_used": false,
+      "blocked": true,
+      "output": "/workspace/out/v3/generative/12_messy_incomplete__glossy.png",
+      "meta": null
+    }
+  ]
+}

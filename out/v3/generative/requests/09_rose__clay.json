@@ -1,0 +1,16 @@
+{
+  "style": "clay",
+  "source_id": "09_rose",
+  "doodle_png": "/workspace/out/v3/09_rose/A_original.png",
+  "prompt": "POLISH THE USER'S DOODLE. Do not replace it with a generic object.\nEdit the provided doodle image into a single centered sticker on a transparent background.\nStyle: clay. matte polymer clay / play-doh, softly sculpted, slight handmade imperfection, restrained highlights, no gloss coat. Not fur, not glass, not gummy.\n\nHard preserve constraints:\n- Keep the subject identity implied by the doodle and the semantic blueprint.\n- Keep the silhouette, major part count, and part placement.\n- Keep distinctive proportions and the user's asymmetry. Do not mirror.\n- Do not remove a meaningful doodle feature.\n- Do not add arbitrary decoration, text, a background scene, a ground plane, or a drop shadow.\n- Do not invent a face, eyes, or a mouth unless the blueprint says those strokes exist.\n- If confidence is LOW, only clean up the existing strokes. Do not decide they are a star, animal, or any other object.\n\nSemantic blueprint:\nsubject_hypothesis: rose\nconfidence: HIGH\norientation: upright\ncomponents:\n- bloom (bloom): role=bloom strokes=bloom\n- spiral (spiral): role=spiral strokes=spiral\n- stem (stem): role=stem strokes=stem\n- leaf (leaf): role=leaf strokes=leaf\nrelationships:\n- on_surface: spiral -> bloom. spiral is a separate cord, not a texture painted into the bloom\n- below: stem -> bloom. stem continues under the bloom\n- attached_to: leaf -> stem. one leaf, not fused into the stem\nfeatures_must_preserve:\n- bloom silhouette\n- spiral structure (the drawn swirl, not a generic rose top)\n- stem\n- single leaf\n- spiral that extends outside the bloom if the user drew it that way\nfeatures_may_complete:\n- round the spiral cord\n- thicken the stem stroke\nfeatures_must_never_invent:\n- replace the spiral with a photoreal petal stack\n- add thorns, extra leaves, or a vase\n- add a face\n- fuse the spiral into the bloom so it disappears\n- a ground plane\n",
+  "blueprint_summary": "subject_hypothesis: rose\nconfidence: HIGH\norientation: upright\ncomponents:\n- bloom (bloom): role=bloom strokes=bloom\n- spiral (spiral): role=spiral strokes=spiral\n- stem (stem): role=stem strokes=stem\n- leaf (leaf): role=leaf strokes=leaf\nrelationships:\n- on_surface: spiral -> bloom. spiral is a separate cord, not a texture painted into the bloom\n- below: stem -> bloom. stem continues under the bloom\n- attached_to: leaf -> stem. one leaf, not fused into the stem\nfeatures_must_preserve:\n- bloom silhouette\n- spiral structure (the drawn swirl, not a generic rose top)\n- stem\n- single leaf\n- spiral that extends outside the bloom if the user drew it that way\nfeatures_may_complete:\n- round the spiral cord\n- thicken the stem stroke\nfeatures_must_never_invent:\n- replace the spiral with a photoreal petal stack\n- add thorns, extra leaves, or a vase\n- add a face\n- fuse the spiral into the bloom so it disappears\n- a ground plane",
+  "negative": [
+    "generic replacement object",
+    "extra parts not in the blueprint",
+    "text",
+    "background",
+    "ground plane",
+    "invented face",
+    "melted or fused fins/ears"
+  ]
+}

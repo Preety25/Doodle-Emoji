@@ -1,0 +1,16 @@
+{
+  "style": "plush",
+  "source_id": "05_plant",
+  "doodle_png": "/workspace/out/v3/05_plant/A_original.png",
+  "prompt": "POLISH THE USER'S DOODLE. Do not replace it with a generic object.\nEdit the provided doodle image into a single centered sticker on a transparent background.\nStyle: plush. stuffed plush toy with a soft fiber pile and a tactile stitched feel. Puffy but clearly fabric, not smooth clay and not plastic.\n\nHard preserve constraints:\n- Keep the subject identity implied by the doodle and the semantic blueprint.\n- Keep the silhouette, major part count, and part placement.\n- Keep distinctive proportions and the user's asymmetry. Do not mirror.\n- Do not remove a meaningful doodle feature.\n- Do not add arbitrary decoration, text, a background scene, a ground plane, or a drop shadow.\n- Do not invent a face, eyes, or a mouth unless the blueprint says those strokes exist.\n- If confidence is LOW, only clean up the existing strokes. Do not decide they are a star, animal, or any other object.\n\nSemantic blueprint:\nsubject_hypothesis: potted_plant\nconfidence: HIGH\norientation: upright\ncomponents:\n- pot (pot): role=pot strokes=pot\n- stem (stem): role=stem strokes=stem\n- leaf_l (left leaf): role=leaf strokes=leaf_l\n- leaf_r (right leaf): role=leaf strokes=leaf_r\nrelationships:\n- grows_from: stem -> pot. stem rises out of the pot\n- attached_to: leaf_l -> stem. left leaf is not fused into the stem\n- attached_to: leaf_r -> stem. right leaf is not fused into the stem\nfeatures_must_preserve:\n- pot at the base\n- single stem\n- left leaf\n- right leaf\n- leaf shapes as drawn (not replaced with generic botanicals)\nfeatures_may_complete:\n- thicken the nearly-flat stem stroke into a round stalk\n- smooth leaf wobble\nfeatures_must_never_invent:\n- extra leaves, flowers, or fruit\n- a face on the pot\n- fuse leaves into one canopy blob\n- a ground or table\n- replace with a photoreal houseplant\n",
+  "blueprint_summary": "subject_hypothesis: potted_plant\nconfidence: HIGH\norientation: upright\ncomponents:\n- pot (pot): role=pot strokes=pot\n- stem (stem): role=stem strokes=stem\n- leaf_l (left leaf): role=leaf strokes=leaf_l\n- leaf_r (right leaf): role=leaf strokes=leaf_r\nrelationships:\n- grows_from: stem -> pot. stem rises out of the pot\n- attached_to: leaf_l -> stem. left leaf is not fused into the stem\n- attached_to: leaf_r -> stem. right leaf is not fused into the stem\nfeatures_must_preserve:\n- pot at the base\n- single stem\n- left leaf\n- right leaf\n- leaf shapes as drawn (not replaced with generic botanicals)\nfeatures_may_complete:\n- thicken the nearly-flat stem stroke into a round stalk\n- smooth leaf wobble\nfeatures_must_never_invent:\n- extra leaves, flowers, or fruit\n- a face on the pot\n- fuse leaves into one canopy blob\n- a ground or table\n- replace with a photoreal houseplant",
+  "negative": [
+    "generic replacement object",
+    "extra parts not in the blueprint",
+    "text",
+    "background",
+    "ground plane",
+    "invented face",
+    "melted or fused fins/ears"
+  ]
+}

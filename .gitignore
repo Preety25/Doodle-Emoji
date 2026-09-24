@@ -25,6 +25,7 @@ secrets/
 # Machine-specific / local tooling
 .blender/
 *.blend1
+tools/
 
 # Generated renders & regenerable image artifacts
 out/renders/
@@ -71,3 +72,12 @@ out/v2/**/contact_sheets/
 out/v2/**/logs/
 out/v2/_sil/
 out/v2/smoke_*.png
+
+# V3 POC: keep JSON blueprints + markdown; ignore generated rasters
+out/v3/**/*.png
+out/v3/**/*.jpg
+out/v3/**/*.webp
+out/v3/**/renders_2048/
+out/v3/**/stickers/
+out/v3/**/logs/
+out/v3/**/jobs/

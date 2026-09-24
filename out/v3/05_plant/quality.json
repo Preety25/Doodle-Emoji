@@ -1,0 +1,84 @@
+{
+  "folder": "/workspace/out/v3/05_plant",
+  "panels": {
+    "C_gummy": {
+      "empty": false,
+      "touch_border": false,
+      "fill": 0.1476,
+      "span": 0.8164,
+      "bounds": [
+        82,
+        223,
+        918,
+        890
+      ],
+      "band_score": 3.85,
+      "mean_rgb": [
+        180.2,
+        187.5,
+        158.5
+      ],
+      "missing": false
+    },
+    "D_clay": {
+      "empty": false,
+      "touch_border": false,
+      "fill": 0.1387,
+      "span": 0.8066,
+      "bounds": [
+        84,
+        234,
+        910,
+        889
+      ],
+      "band_score": 1.226,
+      "mean_rgb": [
+        188.3,
+        194.2,
+        169.8
+      ],
+      "missing": false
+    },
+    "E_plush": {
+      "empty": false,
+      "touch_border": false,
+      "fill": 0.1427,
+      "span": 0.8027,
+      "bounds": [
+        84,
+        237,
+        906,
+        882
+      ],
+      "band_score": 1.14,
+      "mean_rgb": [
+        186.1,
+        198.0,
+        171.4
+      ],
+      "missing": false
+    },
+    "F_glossy": {
+      "empty": false,
+      "touch_border": false,
+      "fill": 0.1345,
+      "span": 0.8047,
+      "bounds": [
+        86,
+        240,
+        910,
+        886
+      ],
+      "band_score": 1.62,
+      "mean_rgb": [
+        206.2,
+        215.3,
+        193.3
+      ],
+      "missing": false
+    }
+  },
+  "plush_fill_minus_clay": 0.004,
+  "clay_vs_glossy_luma": 20.83,
+  "max_band_score": 3.85
+}

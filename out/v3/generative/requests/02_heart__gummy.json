@@ -1,0 +1,16 @@
+{
+  "style": "gummy",
+  "source_id": "02_heart",
+  "doodle_png": "/workspace/out/v3/02_heart/A_original.png",
+  "prompt": "POLISH THE USER'S DOODLE. Do not replace it with a generic object.\nEdit the provided doodle image into a single centered sticker on a transparent background.\nStyle: gummy. soft inflated gelatin candy, translucent depth, internal volume, juicy rounded highlights, a few subtle bubbles trapped inside. Not glass, not metal, not fur.\n\nHard preserve constraints:\n- Keep the subject identity implied by the doodle and the semantic blueprint.\n- Keep the silhouette, major part count, and part placement.\n- Keep distinctive proportions and the user's asymmetry. Do not mirror.\n- Do not remove a meaningful doodle feature.\n- Do not add arbitrary decoration, text, a background scene, a ground plane, or a drop shadow.\n- Do not invent a face, eyes, or a mouth unless the blueprint says those strokes exist.\n- If confidence is LOW, only clean up the existing strokes. Do not decide they are a star, animal, or any other object.\n\nSemantic blueprint:\nsubject_hypothesis: heart\nconfidence: HIGH\norientation: upright\ncomponents:\n- heart (heart): role=primary strokes=s1\nrelationships:\n- single_contour: lobes and point are one user stroke, not separate invented parts\nfeatures_must_preserve:\n- upright heart (point toward -Y, lobes toward +Y)\n- two lobes\n- user asymmetry \u2014 do not mirror\n- bottom point\n- top cleft between the lobes\nfeatures_may_complete:\n- smooth small stroke wobble\n- give the contour a soft inflated thickness\nfeatures_must_never_invent:\n- a face, eyes, or smile\n- an arrow, banner, or text\n- a second heart\n- bilateral symmetry that erases the wonky lobes\n- a ground plane or drop shadow card\n",
+  "blueprint_summary": "subject_hypothesis: heart\nconfidence: HIGH\norientation: upright\ncomponents:\n- heart (heart): role=primary strokes=s1\nrelationships:\n- single_contour: lobes and point are one user stroke, not separate invented parts\nfeatures_must_preserve:\n- upright heart (point toward -Y, lobes toward +Y)\n- two lobes\n- user asymmetry \u2014 do not mirror\n- bottom point\n- top cleft between the lobes\nfeatures_may_complete:\n- smooth small stroke wobble\n- give the contour a soft inflated thickness\nfeatures_must_never_invent:\n- a face, eyes, or smile\n- an arrow, banner, or text\n- a second heart\n- bilateral symmetry that erases the wonky lobes\n- a ground plane or drop shadow card",
+  "negative": [
+    "generic replacement object",
+    "extra parts not in the blueprint",
+    "text",
+    "background",
+    "ground plane",
+    "invented face",
+    "melted or fused fins/ears"
+  ]
+}
