@@ -81,3 +81,10 @@ out/v3/**/renders_2048/
 out/v3/**/stickers/
 out/v3/**/logs/
 out/v3/**/jobs/
+
+# V4 AI rendering: ignore generated rasters / smoke binaries; keep source + small markdown
+out/v4/**/*.png
+out/v4/**/*.jpg
+out/v4/**/*.jpeg
+out/v4/**/*.webp
+out/v4/smoke/
