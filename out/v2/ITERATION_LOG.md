@@ -38,3 +38,8 @@ Blender: 4.2.9 LTS via `xvfb-run -a` (`BLENDER_BIN=/workspace/tools/blender/blen
 ### iter_04 — abandoned (plateau / plush regression)
 - More smooth + softer lights + stronger plush fringe → plush read glossier (worse).
 - Stopped early. **BEST = iter_03** (`e61387c`).
+
+## BEST
+- **iter_03** @ `e61387c` — see repo-root `BEST-V2.md` and `out/v2/EVALUATION.md`
+- Visual pack: `out/v2/comparisons/`
+- Stopped after iter_04 abandon (plush regression / plateau)
