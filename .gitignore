@@ -88,3 +88,7 @@ out/v4/**/*.jpg
 out/v4/**/*.jpeg
 out/v4/**/*.webp
 out/v4/smoke/
+
+# V4 doodle-fidelity test outputs (prompts/meta/json copies + review stay local)
+out/v4/tests/
+out/v4/DOODLE_FIDELITY_REVIEW.md

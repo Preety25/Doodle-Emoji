@@ -204,6 +204,7 @@ def edit_image(
     n: int = DEFAULT_N,
     response_format: str = DEFAULT_RESPONSE_FORMAT,
     prefer_multi_image: bool = True,
+    allow_single_fallback: bool = True,
 ) -> dict:
     """Call xAI image edits. Prefer multi-image (doodle + style ref); fall back on 400.
 
@@ -278,24 +279,14 @@ def edit_image(
         attempts.append(attempt)
         return attempt
 
-    # 1) Multi-image first: image as list of {url, type} (doodle, then style ref)
+    # 1) Multi-image: prefer working `images` array shape first (prior smoke:
+    # `image` as list-of-maps → 422; `images` array succeeded).
     if prefer_multi_image and style_uri is not None:
-        result = _try(
-            "multi_image_list",
-            [_image_obj(doodle_uri), _image_obj(style_uri)],
-            2,
-        )
-        if result.get("ok"):
-            return _success(out_png, result, attempts, cost, doodle_path, style_ref_path,
-                            resolution, quality, n, prompt)
-
-        # Optional alternate field name used in some OpenAPI drafts
-        payload_alt = _base_payload(
+        payload_images = _base_payload(
             prompt, resolution=resolution, quality=quality, n=n, response_format=response_format
         )
-        payload_alt["images"] = [_image_obj(doodle_uri), _image_obj(style_uri)]
-        # drop singular image key
-        status, parsed, raw, latency_ms = _post_json(payload_alt, api_key)
+        payload_images["images"] = [_image_obj(doodle_uri), _image_obj(style_uri)]
+        status, parsed, raw, latency_ms = _post_json(payload_images, api_key)
         attempt = {
             "label": "multi_images_array",
             "http_status": status,
@@ -306,6 +297,8 @@ def edit_image(
         if status == 200 and isinstance(parsed, dict):
             img_bytes, extract_meta = _extract_image_bytes(parsed)
             attempt["extract"] = {k: v for k, v in extract_meta.items() if k != "revised_prompt"}
+            if "revised_prompt" in extract_meta:
+                attempt["revised_prompt_len"] = len(str(extract_meta["revised_prompt"]))
             if img_bytes:
                 out_png.parent.mkdir(parents=True, exist_ok=True)
                 out_png.write_bytes(img_bytes)
@@ -319,16 +312,44 @@ def edit_image(
             attempt["error"] = extract_meta.get("extract_error", "no image bytes")
         else:
             attempt["ok"] = False
-            attempt["error"] = _safe_error_body(raw)
+            attempt["error"] = _safe_error_body(
+                raw if not isinstance(parsed, dict) else json.dumps(
+                    {k: parsed[k] for k in parsed if k != "data"} if parsed else {}
+                )
+            )
+            if isinstance(parsed, dict) and "error" in parsed:
+                err = parsed["error"]
+                if isinstance(err, dict):
+                    attempt["error"] = _safe_error_body(str(err.get("message") or err))
+                else:
+                    attempt["error"] = _safe_error_body(str(err))
         attempts.append(attempt)
+
+        # Recoverable shape retry: some drafts accept `image` as a list of maps.
+        # Known-failing on current API (422) — only try if `images` failed.
+        result = _try(
+            "multi_image_list",
+            [_image_obj(doodle_uri), _image_obj(style_uri)],
+            2,
+        )
+        if result.get("ok"):
+            return _success(out_png, result, attempts, cost, doodle_path, style_ref_path,
+                            resolution, quality, n, prompt)
 
     # 2) Fall back: single-image (doodle only). Caller should use a prompt that
     # describes style in text when multi-image is unavailable.
-    result = _try("single_image", _image_obj(doodle_uri), 1)
     cost1 = approx_cost_usd(n_input_images=1, resolution=resolution, quality=quality)
-    if result.get("ok"):
-        return _success(out_png, result, attempts, cost1, doodle_path, style_ref_path,
-                        resolution, quality, n, prompt, fallback_single=True)
+    if allow_single_fallback:
+        result = _try("single_image", _image_obj(doodle_uri), 1)
+        if result.get("ok"):
+            return _success(out_png, result, attempts, cost1, doodle_path, style_ref_path,
+                            resolution, quality, n, prompt, fallback_single=True)
+    else:
+        cost1 = approx_cost_usd(
+            n_input_images=2 if (prefer_multi_image and style_uri) else 1,
+            resolution=resolution,
+            quality=quality,
+        )
 
     return {
         "ok": False,

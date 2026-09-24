@@ -124,3 +124,102 @@ def build_request(
 
 def dumps_request(req: dict) -> str:
     return json.dumps(req, indent=2)
+
+
+GUMMY_FIDELITY_STYLE = (
+    "Premium soft gummy/gelatin candy material: translucent depth, soft inflated volume, "
+    "rich saturated color, subtle internal bubbles, wet controlled highlights, smooth polished "
+    "edges, soft studio lighting. "
+    "NO ground plane, NO cast shadow, NO background scene, NO visible hard extrusion, "
+    "NO plastic toy look, NO jagged edges."
+)
+
+SUBJECT_FIDELITY_LINES = {
+    "06_rocket": (
+        "Subject cue (light naming only): rocket. "
+        "Preserve the doodle's actual body, pointed nose, separate left/right fins, and window "
+        "placement/count. Polish the user's rocket — do not redesign into a generic NASA rocket."
+    ),
+    "07_teddy": (
+        "Subject cue (light naming only): teddy bear. "
+        "Preserve the doodle's actual head, separate ears, body, and any drawn face marks "
+        "(eyes only if present). Polish the user's teddy — do not invent snout/mouth/clothing "
+        "or replace with a generic teddy."
+    ),
+    "09_rose": (
+        "Subject cue (light naming only): rose/flower. "
+        "Interpret as a flower while preserving the user's bloom silhouette, drawn spiral/swirl, "
+        "stem, and leaf. Not a photorealistic generic rose petal stack."
+    ),
+}
+
+
+def build_fidelity_prompt(
+    *,
+    source_id: str,
+    variant: str,
+    blueprint: dict | None = None,
+    multi_image: bool = True,
+) -> str:
+    """Build a doodle-fidelity edit prompt for variant A (raw+gummy) or B (+blueprint text).
+
+    PRIMARY visual source is always the raw doodle (IMAGE_0). Style ref is IMAGE_1 when
+    multi_image. Blueprint (variant B) is textual guidance only — never an image.
+    """
+    variant = variant.upper().strip()
+    if variant not in ("A", "B"):
+        raise ValueError(f"variant must be A or B, got {variant!r}")
+
+    subject_line = SUBJECT_FIDELITY_LINES.get(
+        source_id,
+        f"Subject cue from doodle id {source_id}: polish the user's drawing, do not redesign.",
+    )
+
+    if multi_image:
+        style_block = (
+            f"Material / look: match <IMAGE_1> (gummy style reference). {GUMMY_FIDELITY_STYLE}\n"
+            "Use <IMAGE_0> as the PRIMARY visual source (the user's raw doodle). "
+            "Transfer only material/look cues from <IMAGE_1>; do NOT copy <IMAGE_1>'s "
+            "subject silhouette or star shape."
+        )
+    else:
+        style_block = f"Material / look (text-described gummy): {GUMMY_FIDELITY_STYLE}"
+
+    preserve_block = (
+        "Product goal: the result must feel like \"my doodle, polished beautifully\" — "
+        "NOT a generic AI object.\n"
+        "Hard preserve:\n"
+        "- Overall silhouette and distinctive proportions from the doodle.\n"
+        "- Meaningful component relationships and user-specific asymmetry (do not mirror).\n"
+        "- Important features that exist in the original doodle.\n"
+        "- Clean up roughness; do not redesign.\n"
+        "Do NOT invent:\n"
+        "- Decorative elements, text, scenery, unrelated accessories, extra components.\n"
+        "- Arbitrary facial features not present in the doodle.\n"
+        "- Background scene, ground plane, or cast/drop shadow.\n"
+    )
+
+    parts = [
+        "POLISH THE USER'S DOODLE. Do not replace it with a generic object.",
+        "Edit into a single centered sticker on a transparent / empty studio background.",
+        style_block,
+        "",
+        subject_line,
+        "",
+        preserve_block,
+    ]
+
+    if variant == "B":
+        if blueprint is None:
+            raise ValueError("variant B requires blueprint dict for textual guidance")
+        summary = blueprint_summary(blueprint)
+        parts.extend(
+            [
+                "",
+                "Semantic blueprint (TEXT guidance only — structure hints; the doodle remains "
+                "the visual source of truth):\n"
+                f"{summary}",
+            ]
+        )
+    # Variant A: explicitly no blueprint summary
+    return "\n".join(parts).rstrip() + "\n"
