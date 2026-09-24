@@ -99,10 +99,11 @@ def _front_inflate(mesh_obj, recipe_geom: dict):
 
     for v in bm.verts:
         r = Vector((v.co.x - cx, v.co.y - cy)).length / max_r
-        falloff = max(0.0, 1.0 - r ** 1.8)
+        # Gentler power → wider pillowy dome (less cusp at center)
+        falloff = max(0.0, 1.0 - r ** 1.45)
         falloff = falloff * falloff * (3 - 2 * falloff)
         zn = (v.co.z - zmin) / zspan
-        side = front_bias * zn + (1.0 - front_bias) * 0.35
+        side = front_bias * zn + (1.0 - front_bias) * 0.45
         v.co.z += inflate * falloff * side
 
     bm.to_mesh(mesh_obj.data)
@@ -207,44 +208,47 @@ def create_closed_filled_v2(bpy, name: str, points: list, recipe_geom: dict):
             bev.profile = float(recipe_geom.get("bevel_profile", 0.7))
         bpy.ops.object.modifier_apply(modifier=bev.name)
 
-    if bool(recipe_geom.get("remesh", False)):
-        bpy.ops.object.modifier_add(type="REMESH")
-        rem = mesh_obj.modifiers[-1]
-        rem.mode = "VOXEL"
-        rem.voxel_size = float(recipe_geom.get("voxel_size", 0.02))
-        bpy.ops.object.modifier_apply(modifier=rem.name)
-    elif bool(recipe_geom.get("subsurf", True)):
+    # Optional early subsurf (kept low — heavy subsurf before inflate creates banded topology)
+    if bool(recipe_geom.get("subsurf", False)):
         bpy.ops.object.modifier_add(type="SUBSURF")
         sub = mesh_obj.modifiers[-1]
-        sub.levels = int(recipe_geom.get("subsurf_levels", 2))
-        sub.render_levels = int(recipe_geom.get("subsurf_levels", 2))
+        sub.levels = int(recipe_geom.get("subsurf_levels", 1))
+        sub.render_levels = int(recipe_geom.get("subsurf_levels", 1))
         bpy.ops.object.modifier_apply(modifier=sub.name)
 
     _front_inflate(mesh_obj, recipe_geom)
 
-    smooth_iters = int(recipe_geom.get("smooth_iters", 2))
+    # Unify surface after inflate to kill solidify/bevel ring banding (silhouette-safe fine voxel)
+    if bool(recipe_geom.get("unify_remesh", True)):
+        bpy.ops.object.modifier_add(type="REMESH")
+        rem = mesh_obj.modifiers[-1]
+        rem.mode = "VOXEL"
+        rem.voxel_size = float(recipe_geom.get("voxel_size", 0.018))
+        bpy.ops.object.modifier_apply(modifier=rem.name)
+
+    smooth_iters = int(recipe_geom.get("smooth_iters", 6))
     if smooth_iters > 0:
         bpy.ops.object.modifier_add(type="SMOOTH")
         mod = mesh_obj.modifiers[-1]
         mod.iterations = smooth_iters
-        mod.factor = float(recipe_geom.get("smooth_factor", 0.25))
+        mod.factor = float(recipe_geom.get("smooth_factor", 0.35))
         bpy.ops.object.modifier_apply(modifier=mod.name)
 
     if bool(recipe_geom.get("soft_junctions", True)):
         bpy.ops.object.modifier_add(type="SMOOTH")
         mod = mesh_obj.modifiers[-1]
-        mod.iterations = int(recipe_geom.get("junction_smooth_iters", 1))
-        mod.factor = float(recipe_geom.get("junction_smooth_factor", 0.25))
+        mod.iterations = int(recipe_geom.get("junction_smooth_iters", 2))
+        mod.factor = float(recipe_geom.get("junction_smooth_factor", 0.3))
         bpy.ops.object.modifier_apply(modifier=mod.name)
 
     bpy.ops.object.shade_smooth()
     import math
     import mathutils
-    # Face-toward-camera: doodle drawn in XY (normal +Z). Rotate -90° about X so
-    # the silhouette faces -Y (default camera) and extrusion depth goes into +Y.
-    # Front inflate (done in +Z above) becomes a bulge toward the camera.
+    # Face-toward-camera: doodle drawn in XY (normal +Z). Rotate +90° about X so
+    # silhouette faces -Y (camera), original +Y (up) maps to +Z (upright), and
+    # front inflate along +Z maps to -Y (bulge toward camera). (-90 flips/inverts.)
     if bool(recipe_geom.get("face_toward_camera", True)):
-        mesh_obj.rotation_euler = (math.radians(-90.0), 0.0, 0.0)
+        mesh_obj.rotation_euler = (math.radians(90.0), 0.0, 0.0)
         bpy.ops.object.transform_apply(location=False, rotation=True, scale=False)
     bpy.context.view_layer.update()
     bbox = [mesh_obj.matrix_world @ mathutils.Vector(c) for c in mesh_obj.bound_box]
@@ -296,7 +300,7 @@ def create_open_tube(bpy, name: str, points: list, recipe_geom: dict):
             bpy.ops.object.modifier_apply(modifier=mod.name)
         if bool(recipe_geom.get("face_toward_camera", True)):
             import math
-            mesh_obj.rotation_euler = (math.radians(-90.0), 0.0, 0.0)
+            mesh_obj.rotation_euler = (math.radians(90.0), 0.0, 0.0)
             bpy.ops.object.transform_apply(location=False, rotation=True, scale=False)
 
     bpy.ops.object.shade_smooth()

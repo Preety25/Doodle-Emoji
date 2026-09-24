@@ -1,31 +1,32 @@
 {
   "style_id": "clay",
   "style_version": "v2",
-  "transform_version": "tx.v2.0",
+  "transform_version": "tx.v2.1",
   "display_name": "Clay",
   "description": "Play-Doh / polymer clay: matte chalky, pressed lumps, soft diffuse, micro bump.",
   "geometry": {
     "version": "v2",
-    "extrusion_wall": 0.12,
-    "inflation_amount": 0.16,
-    "front_bias": 0.9,
-    "bevel_fillet": 0.055,
-    "bevel_resolution": 6,
-    "bevel_profile": 0.72,
-    "curve_resolution_u": 28,
+    "extrusion_wall": 0.08,
+    "inflation_amount": 0.28,
+    "front_bias": 0.95,
+    "bevel_fillet": 0.085,
+    "bevel_resolution": 7,
+    "bevel_profile": 0.75,
+    "curve_resolution_u": 32,
     "tube_radius_open": 0.055,
     "min_feature_thickness": 0.03,
     "remesh": false,
-    "voxel_size": 0.022,
-    "smooth_iters": 2,
-    "smooth_factor": 0.25,
+    "voxel_size": 0.018,
+    "smooth_iters": 8,
+    "smooth_factor": 0.4,
     "soft_junctions": true,
-    "junction_smooth_iters": 1,
-    "solidify_offset": 0.65,
-    "junction_smooth_factor": 0.25,
-    "subsurf": true,
+    "junction_smooth_iters": 3,
+    "solidify_offset": 0.0,
+    "junction_smooth_factor": 0.35,
+    "subsurf": false,
     "subsurf_levels": 2,
-    "chaikin_iters": 2
+    "chaikin_iters": 2,
+    "unify_remesh": true
   },
   "material": {
     "use_stroke_color": true,
@@ -35,14 +36,14 @@
       0.48,
       1.0
     ],
-    "roughness": 0.78,
-    "specular": 0.12,
+    "roughness": 0.82,
+    "specular": 0.08,
     "metallic": 0.0,
     "clearcoat": 0.0,
     "clearcoat_roughness": 0.3,
     "transmission": 0.0,
     "ior": 1.45,
-    "sss_weight": 0.48,
+    "sss_weight": 0.55,
     "sss_radius": [
       0.18,
       0.1,
@@ -53,69 +54,69 @@
       0.72,
       0.55
     ],
-    "bump_strength": 0.025,
-    "bump_scale": 18.0,
-    "bump_detail": 6.0,
-    "bump_distance": 0.06,
+    "bump_strength": 0.04,
+    "bump_scale": 22.0,
+    "bump_detail": 8.0,
+    "bump_distance": 0.07,
     "bubbles": false
   },
   "lighting": {
-    "world_strength": 0.4,
+    "world_strength": 0.45,
     "key": {
-      "energy": 85,
-      "size": 5.0,
+      "energy": 95,
+      "size": 5.5,
       "color": [
         1.0,
-        0.92,
-        0.82
+        0.94,
+        0.86
       ],
       "loc": [
-        2.4,
-        -2.5,
-        3.6
+        2.2,
+        -2.6,
+        3.8
       ]
     },
     "fill": {
-      "energy": 55,
-      "size": 5.5,
+      "energy": 62,
+      "size": 6.0,
       "color": [
         0.95,
-        0.9,
-        0.85
+        0.92,
+        0.88
       ],
       "loc": [
         -2.8,
-        -1.2,
-        2.2
+        -1.4,
+        2.4
       ]
     },
     "rim": {
-      "energy": 28,
-      "size": 3.5,
+      "energy": 32,
+      "size": 4.0,
       "color": [
         1.0,
-        0.95,
-        0.9
+        0.96,
+        0.92
       ],
       "loc": [
-        -1.2,
+        -1.0,
         3.0,
-        2.0
+        2.2
       ]
     },
-    "ao_boost": 18
+    "ao_boost": 22
   },
   "camera": {
     "mode": "front_perspective",
-    "lens": 80,
-    "padding": 0.16,
-    "yaw_deg": 4,
-    "pitch_deg": 3,
-    "z_lift": 0.04,
+    "lens": 90,
+    "padding": 0.18,
+    "yaw_deg": 3,
+    "pitch_deg": 4,
+    "z_lift": 0.02,
     "loc": [
       0.0,
-      -3.5,
-      0.85
+      -3.8,
+      0.7
     ],
     "look_at": [
       0.0,
@@ -131,7 +132,7 @@
   "render": {
     "engine": "BLENDER_EEVEE_NEXT",
     "resolution": 1024,
-    "samples": 32,
+    "samples": 48,
     "film_transparent": true,
     "bloom": false
   }

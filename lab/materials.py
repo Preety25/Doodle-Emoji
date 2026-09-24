@@ -129,16 +129,16 @@ def add_gummy_bubbles(objects: list, recipe: dict):
         min_c = mathutils.Vector((min(v.x for v in bbox), min(v.y for v in bbox), min(v.z for v in bbox)))
         max_c = mathutils.Vector((max(v.x for v in bbox), max(v.y for v in bbox), max(v.z for v in bbox)))
         diag = (max_c - min_c).length
-        n = max(0, min(14, int(4 + density * 10 * diag)))
+        n = max(0, min(8, int(2 + density * 6 * diag)))
         for i in range(n):
-            # bias toward interior
-            t = [rng.uniform(0.25, 0.75) for _ in range(3)]
+            # bias tightly toward volume center so bubbles read as internal air
+            t = [rng.uniform(0.38, 0.62) for _ in range(3)]
             loc = mathutils.Vector((
                 min_c.x + t[0] * (max_c.x - min_c.x),
                 min_c.y + t[1] * (max_c.y - min_c.y),
                 min_c.z + t[2] * (max_c.z - min_c.z),
             ))
-            r = scale * rng.uniform(0.6, 1.4)
+            r = scale * rng.uniform(0.45, 0.95)
             bpy.ops.mesh.primitive_uv_sphere_add(radius=r, location=loc, segments=12, ring_count=8)
             bub = bpy.context.view_layer.objects.active
             bub.name = f"bubble_{obj.name}_{i}"
@@ -149,13 +149,21 @@ def add_gummy_bubbles(objects: list, recipe: dict):
             nodes = nt.nodes
             bsdf = nodes.get("Principled BSDF")
             if bsdf:
-                bsdf.inputs["Base Color"].default_value = (1, 1, 1, 1)
-                bsdf.inputs["Roughness"].default_value = 0.05
+                bsdf.inputs["Base Color"].default_value = (0.95, 0.98, 1.0, 1)
+                bsdf.inputs["Roughness"].default_value = 0.02
                 if "Transmission Weight" in bsdf.inputs:
-                    bsdf.inputs["Transmission Weight"].default_value = 0.9
+                    bsdf.inputs["Transmission Weight"].default_value = 1.0
                 elif "Transmission" in bsdf.inputs:
-                    bsdf.inputs["Transmission"].default_value = 0.9
+                    bsdf.inputs["Transmission"].default_value = 1.0
                 if "IOR" in bsdf.inputs:
-                    bsdf.inputs["IOR"].default_value = 1.15
+                    bsdf.inputs["IOR"].default_value = 1.05
+                if "Alpha" in bsdf.inputs:
+                    bsdf.inputs["Alpha"].default_value = 0.35
+                mat.blend_method = "BLEND"
+                if hasattr(mat, "shadow_method"):
+                    try:
+                        mat.shadow_method = "NONE"
+                    except Exception:
+                        pass
             bub.data.materials.append(mat)
             bpy.ops.object.shade_smooth()

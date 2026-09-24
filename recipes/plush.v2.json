@@ -1,31 +1,32 @@
 {
   "style_id": "plush",
   "style_version": "v2",
-  "transform_version": "tx.v2.0",
+  "transform_version": "tx.v2.1",
   "display_name": "Plush",
   "description": "Soft cuddly toy: high SSS, sheen/fabric approx, thick silhouette, low specular.",
   "geometry": {
     "version": "v2",
-    "extrusion_wall": 0.14,
-    "inflation_amount": 0.24,
-    "front_bias": 0.9,
-    "bevel_fillet": 0.065,
-    "bevel_resolution": 6,
-    "bevel_profile": 0.72,
-    "curve_resolution_u": 28,
-    "tube_radius_open": 0.065,
+    "extrusion_wall": 0.09,
+    "inflation_amount": 0.34,
+    "front_bias": 0.95,
+    "bevel_fillet": 0.1,
+    "bevel_resolution": 7,
+    "bevel_profile": 0.8,
+    "curve_resolution_u": 32,
+    "tube_radius_open": 0.07,
     "min_feature_thickness": 0.03,
     "remesh": false,
-    "voxel_size": 0.022,
-    "smooth_iters": 2,
-    "smooth_factor": 0.25,
+    "voxel_size": 0.018,
+    "smooth_iters": 8,
+    "smooth_factor": 0.4,
     "soft_junctions": true,
-    "solidify_offset": 0.65,
-    "junction_smooth_iters": 1,
-    "junction_smooth_factor": 0.25,
-    "subsurf": true,
+    "solidify_offset": 0.0,
+    "junction_smooth_iters": 3,
+    "junction_smooth_factor": 0.35,
+    "subsurf": false,
     "subsurf_levels": 2,
-    "chaikin_iters": 2
+    "chaikin_iters": 2,
+    "unify_remesh": true
   },
   "material": {
     "use_stroke_color": true,
@@ -35,14 +36,14 @@
       0.82,
       1.0
     ],
-    "roughness": 0.9,
-    "specular": 0.04,
+    "roughness": 0.92,
+    "specular": 0.03,
     "metallic": 0.0,
     "clearcoat": 0.0,
     "clearcoat_roughness": 0.5,
     "transmission": 0.0,
     "ior": 1.4,
-    "sss_weight": 0.78,
+    "sss_weight": 0.72,
     "sss_radius": [
       0.38,
       0.22,
@@ -53,76 +54,76 @@
       0.8,
       0.85
     ],
-    "sheen_weight": 0.55,
-    "sheen_roughness": 0.4,
+    "sheen_weight": 0.7,
+    "sheen_roughness": 0.35,
     "sheen_color": [
       0.9,
       0.85,
       0.9
     ],
-    "bump_strength": 0.03,
-    "bump_scale": 55.0,
-    "bump_detail": 10.0,
-    "bump_distance": 0.04,
+    "bump_strength": 0.045,
+    "bump_scale": 70.0,
+    "bump_detail": 12.0,
+    "bump_distance": 0.05,
     "bubbles": false
   },
   "lighting": {
-    "world_strength": 0.42,
+    "world_strength": 0.48,
     "key": {
-      "energy": 70,
-      "size": 5.5,
+      "energy": 78,
+      "size": 6.0,
       "color": [
         1.0,
         0.97,
         0.95
       ],
       "loc": [
-        2.2,
-        -2.0,
-        3.5
+        2.0,
+        -2.2,
+        3.6
       ]
     },
     "fill": {
-      "energy": 58,
-      "size": 6.5,
+      "energy": 65,
+      "size": 7.0,
       "color": [
         0.95,
         0.95,
         1.0
       ],
       "loc": [
-        -2.5,
-        -1.5,
-        2.5
+        -2.4,
+        -1.6,
+        2.6
       ]
     },
     "rim": {
-      "energy": 38,
-      "size": 4.0,
+      "energy": 42,
+      "size": 4.5,
       "color": [
         1.0,
         0.95,
         1.0
       ],
       "loc": [
-        -1.0,
+        -0.8,
         3.0,
-        2.2
+        2.4
       ]
     },
-    "ao_boost": 14
+    "ao_boost": 16
   },
   "camera": {
     "mode": "front_perspective",
-    "lens": 80,
-    "padding": 0.16,
-    "yaw_deg": 4,
-    "pitch_deg": 3,
-    "z_lift": 0.05,
+    "lens": 90,
+    "padding": 0.18,
+    "yaw_deg": 3,
+    "pitch_deg": 4,
+    "z_lift": 0.02,
     "loc": [
       0.0,
       -3.8,
-      1.0
+      0.7
     ],
     "look_at": [
       0.0,
@@ -138,7 +139,7 @@
   "render": {
     "engine": "BLENDER_EEVEE_NEXT",
     "resolution": 1024,
-    "samples": 32,
+    "samples": 48,
     "film_transparent": true,
     "bloom": false
   }
