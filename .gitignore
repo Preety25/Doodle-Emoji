@@ -1,0 +1,7 @@
+out/renders/*.png
+out/renders_variants/*.png
+out/derivatives/
+out/contact_sheets/*.png
+__pycache__/
+*.pyc
+.DS_Store

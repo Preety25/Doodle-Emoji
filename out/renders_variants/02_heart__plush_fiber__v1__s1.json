@@ -1,0 +1,19 @@
+{
+  "doodle_id": "02_heart",
+  "style_id": "plush_fiber",
+  "style_version": "v1",
+  "transformation_version": "tx.v1.0.0",
+  "seed": 1,
+  "success": true,
+  "error": null,
+  "output_path": "out/renders_variants/02_heart__plush_fiber__v1__s1.png",
+  "blender_version": "4.2.9 LTS",
+  "n_components": 1,
+  "n_closed": 1,
+  "n_open": 0,
+  "file_size_bytes": 600127,
+  "width": 1024,
+  "height": 1024,
+  "has_alpha": true,
+  "render_time_ms": 11413
+}

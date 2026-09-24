@@ -1,0 +1,114 @@
+{
+  "style_id": "clay",
+  "style_version": "v1",
+  "display_name": "Clay",
+  "description": "Matte handmade claymation feel with warm SSS and soft shadows.",
+  "geometry": {
+    "extrusion": 0.22,
+    "bevel_depth": 0.09,
+    "bevel_resolution": 4,
+    "curve_resolution_u": 20,
+    "tube_radius": 0.05,
+    "fill_mode": "BOTH",
+    "remesh": true,
+    "smooth_iters": 6,
+    "smooth_factor": 0.4,
+    "voxel_size": 0.038
+  },
+  "material": {
+    "use_stroke_color": true,
+    "fallback_color": [
+      0.92,
+      0.62,
+      0.48,
+      1.0
+    ],
+    "roughness": 0.7,
+    "specular": 0.2,
+    "metallic": 0.0,
+    "clearcoat": 0.0,
+    "clearcoat_roughness": 0.2,
+    "transmission": 0.0,
+    "ior": 1.45,
+    "sss_weight": 0.5,
+    "sss_radius": [
+      0.2,
+      0.1,
+      0.08
+    ],
+    "sss_color": [
+      1.0,
+      0.72,
+      0.55
+    ],
+    "bump_strength": 0.02
+  },
+  "lighting": {
+    "world_strength": 0.4,
+    "key": {
+      "energy": 90,
+      "size": 4.5,
+      "color": [
+        1.0,
+        0.92,
+        0.82
+      ],
+      "loc": [
+        2.5,
+        -2.5,
+        3.8
+      ]
+    },
+    "fill": {
+      "energy": 50,
+      "size": 5.0,
+      "color": [
+        0.95,
+        0.9,
+        0.85
+      ],
+      "loc": [
+        -2.8,
+        -1.2,
+        2.2
+      ]
+    },
+    "rim": {
+      "energy": 30,
+      "size": 3.0,
+      "color": [
+        1.0,
+        0.95,
+        0.9
+      ],
+      "loc": [
+        -1.2,
+        3.2,
+        2.0
+      ]
+    }
+  },
+  "camera": {
+    "lens": 50,
+    "loc": [
+      0.0,
+      -3.5,
+      0.85
+    ],
+    "look_at": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "padding": 0.14,
+    "yaw_deg": 10,
+    "pitch_deg": 8
+  },
+  "render": {
+    "engine": "BLENDER_EEVEE_NEXT",
+    "resolution": 1024,
+    "samples": 32,
+    "film_transparent": true,
+    "bloom": false
+  }
+}

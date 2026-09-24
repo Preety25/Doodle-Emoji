@@ -1,0 +1,12 @@
+Blender 4.2.9 LTS (hash a10f621e649a built 2025-04-15 01:46:41)
+Fra:1 Mem:60.11M (Peak 60.11M) | Time:00:01.53 | Rendering 1 / 32 samples
+Fra:1 Mem:60.11M (Peak 60.11M) | Time:00:06.95 | Rendering 25 / 32 samples
+Fra:1 Mem:60.11M (Peak 60.11M) | Time:00:08.55 | Rendering 32 / 32 samples
+Saved: '/workspace/stylization-lab/out/renders/03_cloud__gummy__v1__s1.png'
+Time: 00:08.66 (Saving: 00:00.07)
+
+[run_job] OK 03_cloud gummy 8773ms
+
+Blender quit
+
+---STDERR---

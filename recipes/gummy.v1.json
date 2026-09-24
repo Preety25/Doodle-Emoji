@@ -1,0 +1,114 @@
+{
+  "style_id": "gummy",
+  "style_version": "v1",
+  "display_name": "Gummy",
+  "description": "Soft inflated glossy candy look with SSS/transmission and sharp specular glints.",
+  "geometry": {
+    "extrusion": 0.28,
+    "bevel_depth": 0.12,
+    "bevel_resolution": 5,
+    "curve_resolution_u": 24,
+    "tube_radius": 0.045,
+    "fill_mode": "BOTH",
+    "remesh": true,
+    "smooth_iters": 10,
+    "smooth_factor": 0.55,
+    "voxel_size": 0.032
+  },
+  "material": {
+    "use_stroke_color": true,
+    "fallback_color": [
+      1.0,
+      0.45,
+      0.7,
+      1.0
+    ],
+    "roughness": 0.06,
+    "specular": 0.65,
+    "metallic": 0.0,
+    "clearcoat": 1.0,
+    "clearcoat_roughness": 0.03,
+    "transmission": 0.12,
+    "ior": 1.4,
+    "sss_weight": 0.4,
+    "sss_radius": [
+      0.12,
+      0.06,
+      0.04
+    ],
+    "sss_color": [
+      1.0,
+      0.55,
+      0.65
+    ],
+    "bump_strength": 0.0
+  },
+  "lighting": {
+    "world_strength": 0.35,
+    "key": {
+      "energy": 120,
+      "size": 2.5,
+      "color": [
+        1.0,
+        0.98,
+        0.95
+      ],
+      "loc": [
+        2.8,
+        -2.2,
+        4.2
+      ]
+    },
+    "fill": {
+      "energy": 40,
+      "size": 4.0,
+      "color": [
+        0.85,
+        0.9,
+        1.0
+      ],
+      "loc": [
+        -3.0,
+        -1.0,
+        2.0
+      ]
+    },
+    "rim": {
+      "energy": 70,
+      "size": 2.0,
+      "color": [
+        1.0,
+        0.9,
+        1.0
+      ],
+      "loc": [
+        -1.5,
+        3.5,
+        2.5
+      ]
+    }
+  },
+  "camera": {
+    "lens": 50,
+    "loc": [
+      0.0,
+      -3.6,
+      1.05
+    ],
+    "look_at": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "padding": 0.15,
+    "yaw_deg": 18,
+    "pitch_deg": 12
+  },
+  "render": {
+    "engine": "BLENDER_EEVEE_NEXT",
+    "resolution": 1024,
+    "samples": 32,
+    "film_transparent": true,
+    "bloom": false
+  }
+}

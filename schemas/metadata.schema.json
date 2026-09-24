@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://doodle-emoji.local/schemas/metadata.schema.json",
+  "title": "Render Metadata",
+  "type": "object",
+  "required": ["doodle_id", "style_id", "style_version", "transformation_version", "seed", "success"],
+  "properties": {
+    "doodle_id": {"type": "string"},
+    "style_id": {"type": "string"},
+    "style_version": {"type": "string"},
+    "transformation_version": {"type": "string"},
+    "seed": {"type": "integer"},
+    "success": {"type": "boolean"},
+    "error": {"type": ["string", "null"]},
+    "render_time_ms": {"type": "number"},
+    "width": {"type": "integer"},
+    "height": {"type": "integer"},
+    "file_size_bytes": {"type": "integer"},
+    "has_alpha": {"type": "boolean"},
+    "output_path": {"type": "string"},
+    "derivatives": {"type": "object"},
+    "blender_version": {"type": "string"},
+    "timestamp": {"type": "string"}
+  }
+}

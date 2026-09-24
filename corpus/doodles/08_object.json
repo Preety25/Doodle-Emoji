@@ -1,0 +1,65 @@
+{
+  "canvas": {
+    "width": 512,
+    "height": 512
+  },
+  "strokes": [
+    {
+      "id": "cup",
+      "points": [
+        [
+          197.78,
+          181.89
+        ],
+        [
+          192.28,
+          339.31
+        ],
+        [
+          328.66,
+          338.18
+        ],
+        [
+          317.49,
+          178.29
+        ],
+        [
+          198.21,
+          182.12
+        ]
+      ],
+      "closed": true,
+      "color": "#A8DADC",
+      "pressure": null
+    },
+    {
+      "id": "handle",
+      "points": [
+        [
+          328.76,
+          218.76
+        ],
+        [
+          371.71,
+          231.67
+        ],
+        [
+          373.41,
+          289.29
+        ],
+        [
+          331.95,
+          299.56
+        ]
+      ],
+      "closed": false,
+      "color": "#A8DADC",
+      "pressure": null
+    }
+  ],
+  "seed": 1,
+  "meta": {
+    "description": "coffee mug object",
+    "category": "object"
+  }
+}

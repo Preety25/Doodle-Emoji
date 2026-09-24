@@ -1,0 +1,126 @@
+{
+  "version": "corpus.v1",
+  "count": 20,
+  "doodles": [
+    {
+      "id": "01_blob",
+      "category": "closed_blob",
+      "description": "closed organic blob",
+      "path": "corpus/doodles/01_blob.json"
+    },
+    {
+      "id": "02_heart",
+      "category": "heart",
+      "description": "asymmetric heart",
+      "path": "corpus/doodles/02_heart.json"
+    },
+    {
+      "id": "03_cloud",
+      "category": "cloud",
+      "description": "lumpy cloud",
+      "path": "corpus/doodles/03_cloud.json"
+    },
+    {
+      "id": "04_star",
+      "category": "star",
+      "description": "wonky 5-point star",
+      "path": "corpus/doodles/04_star.json"
+    },
+    {
+      "id": "05_face",
+      "category": "simple_face",
+      "description": "simple face with open smile",
+      "path": "corpus/doodles/05_face.json"
+    },
+    {
+      "id": "06_stick",
+      "category": "stick_figure",
+      "description": "stick figure",
+      "path": "corpus/doodles/06_stick.json"
+    },
+    {
+      "id": "07_animal",
+      "category": "animal",
+      "description": "cat-like animal",
+      "path": "corpus/doodles/07_animal.json"
+    },
+    {
+      "id": "08_object",
+      "category": "object",
+      "description": "coffee mug object",
+      "path": "corpus/doodles/08_object.json"
+    },
+    {
+      "id": "09_flower",
+      "category": "flower",
+      "description": "flower with stem",
+      "path": "corpus/doodles/09_flower.json"
+    },
+    {
+      "id": "10_open",
+      "category": "open_stroke",
+      "description": "open arc stroke",
+      "path": "corpus/doodles/10_open.json"
+    },
+    {
+      "id": "11_scribble",
+      "category": "scribble",
+      "description": "loose scribble",
+      "path": "corpus/doodles/11_scribble.json"
+    },
+    {
+      "id": "12_multi",
+      "category": "multiple_disconnected",
+      "description": "three disconnected blobs",
+      "path": "corpus/doodles/12_multi.json"
+    },
+    {
+      "id": "13_overlap",
+      "category": "overlapping",
+      "description": "overlapping blobs",
+      "path": "corpus/doodles/13_overlap.json"
+    },
+    {
+      "id": "14_asym",
+      "category": "asymmetrical",
+      "description": "strongly asymmetrical form",
+      "path": "corpus/doodles/14_asym.json"
+    },
+    {
+      "id": "15_letter",
+      "category": "letter",
+      "description": "letter A",
+      "path": "corpus/doodles/15_letter.json"
+    },
+    {
+      "id": "16_number",
+      "category": "number",
+      "description": "number 5",
+      "path": "corpus/doodles/16_number.json"
+    },
+    {
+      "id": "17_tiny",
+      "category": "tiny",
+      "description": "tiny doodle",
+      "path": "corpus/doodles/17_tiny.json"
+    },
+    {
+      "id": "18_detailed",
+      "category": "detailed",
+      "description": "detailed house",
+      "path": "corpus/doodles/18_detailed.json"
+    },
+    {
+      "id": "19_messy",
+      "category": "messy",
+      "description": "intentionally messy closed shape",
+      "path": "corpus/doodles/19_messy.json"
+    },
+    {
+      "id": "20_bad",
+      "category": "bad",
+      "description": "deliberately bad self-intersecting-ish polygon",
+      "path": "corpus/doodles/20_bad.json"
+    }
+  ]
+}

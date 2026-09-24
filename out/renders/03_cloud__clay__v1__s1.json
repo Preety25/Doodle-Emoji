@@ -1,0 +1,19 @@
+{
+  "doodle_id": "03_cloud",
+  "style_id": "clay",
+  "style_version": "v1",
+  "transformation_version": "tx.v1.0.0",
+  "seed": 1,
+  "success": true,
+  "error": null,
+  "output_path": "/workspace/stylization-lab/out/renders/03_cloud__clay__v1__s1.png",
+  "blender_version": "4.2.9 LTS",
+  "n_components": 1,
+  "n_closed": 1,
+  "n_open": 0,
+  "file_size_bytes": 495092,
+  "width": 1024,
+  "height": 1024,
+  "has_alpha": true,
+  "render_time_ms": 7521
+}

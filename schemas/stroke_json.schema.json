@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://doodle-emoji.local/schemas/stroke_json.schema.json",
+  "title": "Doodle Stroke JSON",
+  "type": "object",
+  "required": ["canvas", "strokes"],
+  "properties": {
+    "canvas": {
+      "type": "object",
+      "required": ["width", "height"],
+      "properties": {
+        "width": {"type": "number", "exclusiveMinimum": 0},
+        "height": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "strokes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "points"],
+        "properties": {
+          "id": {"type": "string"},
+          "points": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {"type": "number"}
+            }
+          },
+          "closed": {"type": "boolean"},
+          "color": {"type": ["string", "null"]},
+          "pressure": {"type": ["array", "null"], "items": {"type": "number"}}
+        }
+      }
+    },
+    "seed": {"type": "integer"},
+    "meta": {"type": "object"}
+  }
+}

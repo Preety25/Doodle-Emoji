@@ -1,0 +1,116 @@
+{
+  "style_id": "clay_claymorph",
+  "style_version": "v1",
+  "display_name": "Clay Claymorph",
+  "description": "Pillowy claymorph: chalky matte, large bevels, soft SSS, oversized area lights. Faces only if doodle has them.",
+  "geometry": {
+    "extrusion": 0.3,
+    "bevel_depth": 0.16,
+    "bevel_resolution": 6,
+    "curve_resolution_u": 20,
+    "tube_radius": 0.07,
+    "fill_mode": "BOTH",
+    "remesh": true,
+    "smooth_iters": 14,
+    "smooth_factor": 0.65,
+    "voxel_size": 0.028
+  },
+  "material": {
+    "use_stroke_color": true,
+    "fallback_color": [
+      0.55,
+      0.78,
+      0.82,
+      1.0
+    ],
+    "roughness": 0.82,
+    "specular": 0.08,
+    "metallic": 0.0,
+    "clearcoat": 0.0,
+    "clearcoat_roughness": 0.2,
+    "transmission": 0.0,
+    "ior": 1.45,
+    "sss_weight": 0.62,
+    "sss_radius": [
+      0.28,
+      0.16,
+      0.12
+    ],
+    "sss_color": [
+      1.0,
+      0.78,
+      0.7
+    ],
+    "bump_strength": 0.012
+  },
+  "lighting": {
+    "world_strength": 0.55,
+    "key": {
+      "energy": 70,
+      "size": 6.0,
+      "color": [
+        1.0,
+        0.92,
+        0.82
+      ],
+      "loc": [
+        2.5,
+        -2.5,
+        3.8
+      ]
+    },
+    "fill": {
+      "energy": 60,
+      "size": 7.0,
+      "color": [
+        0.95,
+        0.9,
+        0.85
+      ],
+      "loc": [
+        -2.8,
+        -1.2,
+        2.2
+      ]
+    },
+    "rim": {
+      "energy": 25,
+      "size": 4.5,
+      "color": [
+        1.0,
+        0.95,
+        0.9
+      ],
+      "loc": [
+        -1.2,
+        3.2,
+        2.0
+      ]
+    }
+  },
+  "camera": {
+    "lens": 50,
+    "loc": [
+      0.0,
+      -3.5,
+      0.85
+    ],
+    "look_at": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "padding": 0.16,
+    "yaw_deg": 8,
+    "pitch_deg": 6
+  },
+  "render": {
+    "engine": "BLENDER_EEVEE_NEXT",
+    "resolution": 1024,
+    "samples": 32,
+    "film_transparent": true,
+    "bloom": false
+  },
+  "parent_style": "clay.v1",
+  "reference": "docs/refs/batch3/clay_claymorph_figure.png"
+}

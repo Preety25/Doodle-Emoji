@@ -1,0 +1,61 @@
+doodle_id,category,style_id,silhouette_fidelity,recognition,quirk_preservation,material_quality,dimensionality,style_consistency,small_sticker_legibility,delight,shareability,failure_classes,score_source,notes
+01_blob,closed_blob,gummy,4,5,4,4,4,4,4,4,4,,inspected,Soft inflated coral blob; remesh preserves lumpiness; good glints
+01_blob,closed_blob,clay,3,3,4,3,4,4,4,3,4,silhouette_collapsed,lab_auto_v1,"iou_proxy=0.516; coverage=0.0647; mean_rgb=[227.4, 172.1, 141.2]"
+01_blob,closed_blob,plush,5,5,4,4,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.700; coverage=0.0919; mean_rgb=[234.4, 179.0, 148.1]"
+02_heart,heart,gummy,5,5,5,4,4,4,4,5,5,,inspected,Asymmetric heart readable; excellent sticker candidate
+02_heart,heart,clay,3,3,4,3,4,4,4,3,4,silhouette_collapsed,lab_auto_v1,"iou_proxy=0.540; coverage=0.0606; mean_rgb=[227.1, 133.7, 153.1]"
+02_heart,heart,plush,5,5,4,4,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.644; coverage=0.0871; mean_rgb=[233.9, 137.4, 160.4]"
+03_cloud,cloud,gummy,5,5,4,5,4,4,4,4,5,,lab_auto_v1,"iou_proxy=0.516; coverage=0.0774; mean_rgb=[163.3, 191.7, 208.9]"
+03_cloud,cloud,clay,5,5,4,3,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.506; coverage=0.0599; mean_rgb=[166.5, 201.8, 220.9]"
+03_cloud,cloud,plush,5,5,4,4,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.490; coverage=0.0871; mean_rgb=[171.7, 210.6, 233.0]"
+04_star,star,gummy,5,5,4,4,4,4,4,5,5,,inspected,Wonky points preserved; soft tips; gold candy look
+04_star,star,clay,5,5,4,4,3,4,4,3,4,,inspected,Matte clay star; flatter specular; solid identity
+04_star,star,plush,4,5,3,4,5,4,4,4,4,over_smoothed_identity_loss,inspected,Plush remesh softens points more; still a star
+05_face,simple_face,gummy,4,5,5,4,4,4,4,5,4,,inspected,Head+eyes+smile as separate components; no invented features
+05_face,simple_face,clay,3,3,4,3,4,4,4,3,4,silhouette_collapsed,lab_auto_v1,"iou_proxy=0.463; coverage=0.0654; mean_rgb=[228.6, 213.9, 149.8]"
+05_face,simple_face,plush,5,5,4,4,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.631; coverage=0.0935; mean_rgb=[235.3, 223.2, 157.1]"
+06_stick,stick_figure,gummy,4,4,5,3,3,4,4,3,2,thin_features_lost|legibility_fail_128,inspected,Tubes OK at 1024; thin limbs weak as sticker
+06_stick,stick_figure,clay,2,2,4,4,3,4,3,3,4,silhouette_collapsed|thin_features_lost,lab_auto_v1,"iou_proxy=0.069; coverage=0.0233; mean_rgb=[109.5, 108.3, 106.4]"
+06_stick,stick_figure,plush,2,2,4,4,4,4,4,3,4,silhouette_collapsed|thin_features_lost,lab_auto_v1,"iou_proxy=0.095; coverage=0.0317; mean_rgb=[110.3, 109.9, 109.7]"
+07_animal,animal,gummy,3,3,4,5,4,4,4,4,5,silhouette_collapsed,lab_auto_v1,"iou_proxy=0.418; coverage=0.0812; mean_rgb=[206.0, 178.4, 150.6]"
+07_animal,animal,clay,3,3,4,3,4,4,4,3,4,silhouette_collapsed,lab_auto_v1,"iou_proxy=0.354; coverage=0.0632; mean_rgb=[222.1, 183.9, 144.7]"
+07_animal,animal,plush,5,5,4,4,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.431; coverage=0.0899; mean_rgb=[230.0, 191.7, 151.9]"
+08_object,object,gummy,5,5,4,5,4,4,4,4,5,,lab_auto_v1,"iou_proxy=0.427; coverage=0.0977; mean_rgb=[179.0, 195.3, 195.1]"
+08_object,object,clay,3,3,4,3,4,4,4,3,4,silhouette_collapsed,lab_auto_v1,"iou_proxy=0.346; coverage=0.0732; mean_rgb=[189.0, 209.5, 207.1]"
+08_object,object,plush,5,5,4,4,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.430; coverage=0.1040; mean_rgb=[195.0, 218.4, 218.9]"
+09_flower,flower,gummy,5,5,4,5,4,4,4,4,5,,lab_auto_v1,"iou_proxy=0.476; coverage=0.0629; mean_rgb=[187.6, 153.7, 138.2]"
+09_flower,flower,clay,3,3,4,3,4,4,4,3,4,silhouette_collapsed,lab_auto_v1,"iou_proxy=0.354; coverage=0.0466; mean_rgb=[195.9, 156.4, 135.0]"
+09_flower,flower,plush,5,5,4,4,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.499; coverage=0.0677; mean_rgb=[199.4, 159.9, 139.5]"
+10_open,open_stroke,gummy,4,3,5,4,3,4,4,3,3,open_stroke_failed,inspected,"Open arc as tube works; less ""emoji"" delight"
+10_open,open_stroke,clay,2,2,4,3,3,4,4,3,4,open_stroke_failed|thin_features_lost,lab_auto_v1,"iou_proxy=0.096; coverage=0.0285; mean_rgb=[180.5, 142.7, 209.4]"
+10_open,open_stroke,plush,3,3,4,4,4,4,4,3,4,open_stroke_failed|thin_features_lost,lab_auto_v1,"iou_proxy=0.105; coverage=0.0342; mean_rgb=[188.2, 149.0, 223.3]"
+11_scribble,scribble,gummy,2,2,4,5,4,4,4,4,4,open_stroke_failed|silhouette_collapsed|thin_features_lost,lab_auto_v1,"iou_proxy=0.000; coverage=0.0315; mean_rgb=[128.5, 128.1, 127.6]"
+11_scribble,scribble,clay,2,2,4,4,4,4,4,3,4,open_stroke_failed|silhouette_collapsed|thin_features_lost,lab_auto_v1,"iou_proxy=0.000; coverage=0.0316; mean_rgb=[108.5, 107.3, 105.6]"
+11_scribble,scribble,plush,2,2,4,4,4,4,4,3,4,open_stroke_failed|silhouette_collapsed|thin_features_lost,lab_auto_v1,"iou_proxy=0.000; coverage=0.0388; mean_rgb=[110.8, 110.4, 110.2]"
+12_multi,multiple_disconnected,gummy,3,3,4,5,4,4,4,4,5,,inspected,"iou_proxy=0.110; coverage=0.0629; mean_rgb=[179.1, 190.1, 163.1]"
+12_multi,multiple_disconnected,clay,2,2,4,3,4,4,4,3,4,,lab_auto_v1,"iou_proxy=0.085; coverage=0.0508; mean_rgb=[189.9, 196.4, 162.9]"
+12_multi,multiple_disconnected,plush,4,4,5,4,4,4,4,4,3,,inspected,Three blobs stay disconnected — good
+13_overlap,overlapping,gummy,5,5,4,5,4,4,4,4,5,,lab_auto_v1,"iou_proxy=0.775; coverage=0.0819; mean_rgb=[175.8, 188.4, 195.3]"
+13_overlap,overlapping,clay,5,5,4,3,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.606; coverage=0.0626; mean_rgb=[188.7, 196.3, 203.4]"
+13_overlap,overlapping,plush,5,5,4,4,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.794; coverage=0.0898; mean_rgb=[192.0, 206.0, 216.3]"
+14_asym,asymmetrical,gummy,5,5,4,5,4,4,4,4,5,,lab_auto_v1,"iou_proxy=0.677; coverage=0.0753; mean_rgb=[190.0, 160.7, 207.6]"
+14_asym,asymmetrical,clay,5,5,4,3,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.550; coverage=0.0576; mean_rgb=[202.7, 163.5, 220.4]"
+14_asym,asymmetrical,plush,5,5,4,4,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.701; coverage=0.0821; mean_rgb=[209.9, 169.7, 232.4]"
+15_letter,letter,gummy,3,3,4,5,3,4,4,4,5,silhouette_collapsed|thin_features_lost,lab_auto_v1,"iou_proxy=0.108; coverage=0.0286; mean_rgb=[117.4, 117.0, 116.6]"
+15_letter,letter,clay,4,4,4,3,3,4,4,2,2,thin_features_lost,inspected,Letter A as tubes; matte; weak small
+15_letter,letter,plush,3,3,4,4,4,4,4,3,4,silhouette_collapsed|thin_features_lost,lab_auto_v1,"iou_proxy=0.111; coverage=0.0360; mean_rgb=[93.3, 93.0, 92.8]"
+16_number,number,gummy,2,2,4,5,4,4,4,4,4,silhouette_collapsed|thin_features_lost,lab_auto_v1,"iou_proxy=0.070; coverage=0.0371; mean_rgb=[112.6, 112.3, 111.9]"
+16_number,number,clay,2,2,4,4,4,4,4,3,4,silhouette_collapsed|thin_features_lost,lab_auto_v1,"iou_proxy=0.078; coverage=0.0332; mean_rgb=[92.2, 91.1, 89.5]"
+16_number,number,plush,2,2,4,4,4,4,4,3,4,silhouette_collapsed|thin_features_lost,lab_auto_v1,"iou_proxy=0.069; coverage=0.0422; mean_rgb=[92.5, 92.2, 92.1]"
+17_tiny,tiny,gummy,2,2,4,5,4,4,4,4,4,,lab_auto_v1,"iou_proxy=0.032; coverage=0.0883; mean_rgb=[208.0, 176.3, 109.4]"
+17_tiny,tiny,clay,2,2,4,3,4,4,4,3,4,,lab_auto_v1,"iou_proxy=0.043; coverage=0.0664; mean_rgb=[228.0, 183.9, 85.9]"
+17_tiny,tiny,plush,2,2,4,4,4,4,4,3,4,,lab_auto_v1,"iou_proxy=0.030; coverage=0.0950; mean_rgb=[235.0, 191.4, 86.5]"
+18_detailed,detailed,gummy,5,5,4,5,4,4,4,4,5,,lab_auto_v1,"iou_proxy=0.465; coverage=0.1085; mean_rgb=[168.7, 173.1, 179.9]"
+18_detailed,detailed,clay,3,3,4,3,4,4,4,3,4,silhouette_collapsed,lab_auto_v1,"iou_proxy=0.471; coverage=0.0797; mean_rgb=[176.4, 181.0, 188.5]"
+18_detailed,detailed,plush,5,5,4,4,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.467; coverage=0.1161; mean_rgb=[182.1, 188.3, 199.0]"
+19_messy,messy,gummy,5,5,4,5,4,4,4,4,5,,lab_auto_v1,"iou_proxy=0.609; coverage=0.0729; mean_rgb=[151.5, 136.8, 168.2]"
+19_messy,messy,clay,5,5,4,4,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.475; coverage=0.0564; mean_rgb=[153.1, 130.9, 172.2]"
+19_messy,messy,plush,5,5,4,4,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.645; coverage=0.0792; mean_rgb=[156.5, 133.8, 180.9]"
+20_bad,bad,gummy,3,2,5,4,4,4,4,2,2,self_intersect_artifacts,inspected,Bad polygon still renders; low recognition by design
+20_bad,bad,clay,3,3,4,4,4,4,4,3,4,silhouette_collapsed,lab_auto_v1,"iou_proxy=0.228; coverage=0.0674; mean_rgb=[138.5, 137.1, 134.8]"
+20_bad,bad,plush,4,4,4,4,4,4,4,3,5,,lab_auto_v1,"iou_proxy=0.218; coverage=0.0926; mean_rgb=[142.1, 141.7, 141.3]"

@@ -1,0 +1,114 @@
+{
+  "style_id": "plush",
+  "style_version": "v1",
+  "display_name": "Plush",
+  "description": "Soft rounded cuddly toy with high SSS, low specular, thicker silhouette.",
+  "geometry": {
+    "extrusion": 0.32,
+    "bevel_depth": 0.14,
+    "bevel_resolution": 6,
+    "curve_resolution_u": 28,
+    "tube_radius": 0.06,
+    "fill_mode": "BOTH",
+    "remesh": true,
+    "smooth_iters": 12,
+    "smooth_factor": 0.6,
+    "voxel_size": 0.03
+  },
+  "material": {
+    "use_stroke_color": true,
+    "fallback_color": [
+      0.95,
+      0.75,
+      0.82,
+      1.0
+    ],
+    "roughness": 0.88,
+    "specular": 0.05,
+    "metallic": 0.0,
+    "clearcoat": 0.0,
+    "clearcoat_roughness": 0.4,
+    "transmission": 0.0,
+    "ior": 1.4,
+    "sss_weight": 0.75,
+    "sss_radius": [
+      0.35,
+      0.2,
+      0.15
+    ],
+    "sss_color": [
+      1.0,
+      0.8,
+      0.85
+    ],
+    "bump_strength": 0.015
+  },
+  "lighting": {
+    "world_strength": 0.45,
+    "key": {
+      "energy": 75,
+      "size": 5.0,
+      "color": [
+        1.0,
+        0.97,
+        0.95
+      ],
+      "loc": [
+        2.2,
+        -2.0,
+        3.5
+      ]
+    },
+    "fill": {
+      "energy": 55,
+      "size": 6.0,
+      "color": [
+        0.95,
+        0.95,
+        1.0
+      ],
+      "loc": [
+        -2.5,
+        -1.5,
+        2.5
+      ]
+    },
+    "rim": {
+      "energy": 40,
+      "size": 4.0,
+      "color": [
+        1.0,
+        0.95,
+        1.0
+      ],
+      "loc": [
+        -1.0,
+        3.0,
+        2.2
+      ]
+    }
+  },
+  "camera": {
+    "lens": 50,
+    "loc": [
+      0.0,
+      -3.8,
+      1.0
+    ],
+    "look_at": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "padding": 0.16,
+    "yaw_deg": 14,
+    "pitch_deg": 10
+  },
+  "render": {
+    "engine": "BLENDER_EEVEE_NEXT",
+    "resolution": 1024,
+    "samples": 32,
+    "film_transparent": true,
+    "bloom": false
+  }
+}

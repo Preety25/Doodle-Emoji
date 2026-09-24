@@ -1,0 +1,127 @@
+{
+  "style_id": "plush_fiber",
+  "style_version": "v1",
+  "display_name": "Plush Fiber",
+  "description": "Short dense fiber-pile look via sheen + fine bump (velvet approx). True hair particles deferred to Cycles/offline bake.",
+  "geometry": {
+    "extrusion": 0.34,
+    "bevel_depth": 0.16,
+    "bevel_resolution": 6,
+    "curve_resolution_u": 28,
+    "tube_radius": 0.065,
+    "fill_mode": "BOTH",
+    "remesh": true,
+    "smooth_iters": 12,
+    "smooth_factor": 0.6,
+    "voxel_size": 0.03
+  },
+  "material": {
+    "use_stroke_color": true,
+    "fallback_color": [
+      0.55,
+      0.9,
+      0.35,
+      1.0
+    ],
+    "roughness": 0.92,
+    "specular": 0.03,
+    "metallic": 0.0,
+    "clearcoat": 0.0,
+    "clearcoat_roughness": 0.4,
+    "transmission": 0.0,
+    "ior": 1.4,
+    "sss_weight": 0.55,
+    "sss_radius": [
+      0.3,
+      0.18,
+      0.12
+    ],
+    "sss_color": [
+      0.9,
+      1.0,
+      0.7
+    ],
+    "bump_strength": 0.28,
+    "bump_scale": 85.0,
+    "bump_detail": 10.0,
+    "bump_noise_roughness": 0.7,
+    "bump_distance": 0.06,
+    "sheen_weight": 0.85,
+    "sheen_roughness": 0.4,
+    "sheen_color": [
+      0.9,
+      0.95,
+      0.7
+    ]
+  },
+  "lighting": {
+    "world_strength": 0.5,
+    "key": {
+      "energy": 75,
+      "size": 5.0,
+      "color": [
+        1.0,
+        0.97,
+        0.95
+      ],
+      "loc": [
+        2.2,
+        -2.0,
+        3.5
+      ]
+    },
+    "fill": {
+      "energy": 55,
+      "size": 6.0,
+      "color": [
+        0.95,
+        0.95,
+        1.0
+      ],
+      "loc": [
+        -2.5,
+        -1.5,
+        2.5
+      ]
+    },
+    "rim": {
+      "energy": 40,
+      "size": 4.0,
+      "color": [
+        1.0,
+        0.95,
+        1.0
+      ],
+      "loc": [
+        -1.0,
+        3.0,
+        2.2
+      ]
+    }
+  },
+  "camera": {
+    "lens": 50,
+    "loc": [
+      0.0,
+      -3.8,
+      1.0
+    ],
+    "look_at": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "padding": 0.16,
+    "yaw_deg": 14,
+    "pitch_deg": 10
+  },
+  "render": {
+    "engine": "BLENDER_EEVEE_NEXT",
+    "resolution": 1024,
+    "samples": 48,
+    "film_transparent": true,
+    "bloom": false
+  },
+  "parent_style": "plush.v1",
+  "reference": "docs/refs/batch3/plush_fiber_pile.png"
+}

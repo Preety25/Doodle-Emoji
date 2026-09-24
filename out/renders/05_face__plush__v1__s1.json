@@ -1,0 +1,19 @@
+{
+  "doodle_id": "05_face",
+  "style_id": "plush",
+  "style_version": "v1",
+  "transformation_version": "tx.v1.0.0",
+  "seed": 1,
+  "success": true,
+  "error": null,
+  "output_path": "/workspace/stylization-lab/out/renders/05_face__plush__v1__s1.png",
+  "blender_version": "4.2.9 LTS",
+  "n_components": 4,
+  "n_closed": 3,
+  "n_open": 1,
+  "file_size_bytes": 522007,
+  "width": 1024,
+  "height": 1024,
+  "has_alpha": true,
+  "render_time_ms": 8548
+}

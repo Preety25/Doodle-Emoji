@@ -1,0 +1,12 @@
+Blender 4.2.9 LTS (hash a10f621e649a built 2025-04-15 01:46:41)
+Fra:1 Mem:60.90M (Peak 60.90M) | Time:00:01.46 | Rendering 1 / 32 samples
+Fra:1 Mem:60.91M (Peak 60.91M) | Time:00:06.34 | Rendering 25 / 32 samples
+Fra:1 Mem:60.91M (Peak 60.91M) | Time:00:07.72 | Rendering 32 / 32 samples
+Saved: '/workspace/stylization-lab/out/renders/05_face__clay__v1__s1.png'
+Time: 00:07.83 (Saving: 00:00.07)
+
+[run_job] OK 05_face clay 7922ms
+
+Blender quit
+
+---STDERR---

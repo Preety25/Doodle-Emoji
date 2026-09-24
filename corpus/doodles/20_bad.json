@@ -1,0 +1,45 @@
+{
+  "canvas": {
+    "width": 512,
+    "height": 512
+  },
+  "strokes": [
+    {
+      "id": "b",
+      "points": [
+        [
+          100.45,
+          90.66
+        ],
+        [
+          413.59,
+          124.06
+        ],
+        [
+          152.69,
+          413.21
+        ],
+        [
+          367.74,
+          388.79
+        ],
+        [
+          111.69,
+          242.54
+        ],
+        [
+          294.63,
+          207.18
+        ]
+      ],
+      "closed": true,
+      "color": "#555555",
+      "pressure": null
+    }
+  ],
+  "seed": 1,
+  "meta": {
+    "description": "deliberately bad self-intersecting-ish polygon",
+    "category": "bad"
+  }
+}
