@@ -1,24 +1,24 @@
 {
   "style_id": "gummy",
   "style_version": "v2",
-  "transform_version": "tx.v2.1",
+  "transform_version": "tx.v2.2",
   "display_name": "Gummy",
   "description": "Translucent gelatin candy: max puff, wet gloss, SSS/transmission, internal bubbles.",
   "geometry": {
     "version": "v2",
-    "extrusion_wall": 0.08,
-    "inflation_amount": 0.34,
-    "front_bias": 0.95,
-    "bevel_fillet": 0.09,
+    "extrusion_wall": 0.05,
+    "inflation_amount": 0.4,
+    "front_bias": 0.7,
+    "bevel_fillet": 0.06,
     "bevel_resolution": 7,
     "bevel_profile": 0.78,
     "curve_resolution_u": 32,
     "tube_radius_open": 0.06,
     "min_feature_thickness": 0.03,
     "remesh": false,
-    "voxel_size": 0.016,
-    "smooth_iters": 8,
-    "smooth_factor": 0.4,
+    "voxel_size": 0.012,
+    "smooth_iters": 10,
+    "smooth_factor": 0.42,
     "soft_junctions": true,
     "solidify_offset": 0.0,
     "junction_smooth_iters": 3,
@@ -36,14 +36,14 @@
       0.7,
       1.0
     ],
-    "roughness": 0.055,
+    "roughness": 0.045,
     "specular": 0.8,
     "metallic": 0.0,
     "clearcoat": 1.0,
     "clearcoat_roughness": 0.03,
-    "transmission": 0.42,
+    "transmission": 0.48,
     "ior": 1.38,
-    "sss_weight": 0.65,
+    "sss_weight": 0.72,
     "sss_radius": [
       0.16,
       0.08,
@@ -56,13 +56,14 @@
     ],
     "bump_strength": 0.0,
     "bubbles": true,
-    "bubble_density": 0.18,
-    "bubble_scale": 0.011
+    "bubble_density": 0.2,
+    "bubble_scale": 0.009,
+    "candy_lift": 0.35
   },
   "lighting": {
     "world_strength": 0.28,
     "key": {
-      "energy": 140,
+      "energy": 155,
       "size": 2.2,
       "color": [
         1.0,
@@ -90,7 +91,7 @@
       ]
     },
     "rim": {
-      "energy": 120,
+      "energy": 145,
       "size": 2.0,
       "color": [
         1.0,

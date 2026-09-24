@@ -24,8 +24,17 @@ def make_material(bpy, name: str, color_rgba: list, mat_cfg: dict):
     bsdf.location = (0, 0)
     links.new(bsdf.outputs["BSDF"], out.inputs["Surface"])
 
+    # Optional candy value/saturation lift (gummy) — keep hue family
+    lift = float(mat_cfg.get("candy_lift", 0.0))
+    cr, cg, cb = color_rgba[0], color_rgba[1], color_rgba[2]
+    if lift > 0:
+        import colorsys
+        h, s, v = colorsys.rgb_to_hsv(max(0, min(1, cr)), max(0, min(1, cg)), max(0, min(1, cb)))
+        s = min(1.0, s * (1.0 + 0.35 * lift))
+        v = min(1.0, v * (1.0 + 0.45 * lift) + 0.05 * lift)
+        cr, cg, cb = colorsys.hsv_to_rgb(h, s, v)
     bsdf.inputs["Base Color"].default_value = (
-        color_rgba[0], color_rgba[1], color_rgba[2], 1.0
+        cr, cg, cb, 1.0
     )
     bsdf.inputs["Roughness"].default_value = float(mat_cfg.get("roughness", 0.5))
     if "Specular IOR Level" in bsdf.inputs:
@@ -167,3 +176,35 @@ def add_gummy_bubbles(objects: list, recipe: dict):
                         pass
             bub.data.materials.append(mat)
             bpy.ops.object.shade_smooth()
+
+
+def apply_fiber_fringe(objects: list, recipe: dict):
+    """Soft silhouette fuzz via displace-along-normal noise (plush signature approx)."""
+    bpy = _ensure_bpy()
+    mat_cfg = recipe.get("material", {})
+    if not mat_cfg.get("fiber_fringe"):
+        return
+    strength = float(mat_cfg.get("fiber_fringe_strength", 0.01))
+    scale = float(mat_cfg.get("fiber_fringe_scale", 80.0))
+    for obj in objects:
+        if obj.type != "MESH":
+            continue
+        bpy.context.view_layer.objects.active = obj
+        obj.select_set(True)
+        # procedural displace via modifier + texture
+        tex = bpy.data.textures.new(name=f"fuzz_{obj.name}", type="CLOUDS")
+        if hasattr(tex, "noise_scale"):
+            tex.noise_scale = max(0.15, 1.0 / max(scale / 40.0, 0.1))
+        if hasattr(tex, "noise_depth"):
+            tex.noise_depth = 2
+        bpy.ops.object.modifier_add(type="DISPLACE")
+        mod = obj.modifiers[-1]
+        mod.texture = tex
+        mod.strength = strength
+        mod.mid_level = 0.5
+        try:
+            mod.direction = "NORMAL"
+        except Exception:
+            pass
+        bpy.ops.object.modifier_apply(modifier=mod.name)
+        obj.select_set(False)

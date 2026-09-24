@@ -27,3 +27,10 @@ Blender: 4.2.9 LTS via `xvfb-run -a` (`BLENDER_BIN=/workspace/tools/blender/blen
 - Benchmark: **48/48 OK**. Holistic ~6/10 vs refs (was ~2/10).
 - Remaining: mid-groove, plush≈clay, gummy bubble/translucency.
 - Details: `out/v2/iter_02/NOTES.md`
+
+### iter_03 — bilateral pillow + plush fringe + candy lift
+- Bilateral midplane inflate; thinner walls; finer voxel; tx.v2.2
+- Gummy candy_lift + transmission/rim; plush fiber_fringe; glossy opaque PVC
+- Benchmark 48/48. Holistic ~6.8/10 (was ~6.0). **BEST so far.**
+- Remaining: residual ripples, plush≈clay, gummy bubble punch.
+- Details: `out/v2/iter_03/NOTES.md`

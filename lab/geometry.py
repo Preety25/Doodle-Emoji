@@ -69,7 +69,11 @@ def _adaptive_min_thickness(points: list, recipe_geom: dict) -> float:
 
 
 def _front_inflate(mesh_obj, recipe_geom: dict):
-    """Displace verts along +Z by radial falloff from XY centroid → soft front bulge."""
+    """Bilateral pillow: push verts outward from mid-Z with radial falloff.
+
+    Avoids one-sided front dome + flat back that remesh turns into a mid waist/groove.
+    Slight front_bias still favors the camera-facing side after +90° X rotation.
+    """
     import bmesh
     from mathutils import Vector
 
@@ -92,19 +96,27 @@ def _front_inflate(mesh_obj, recipe_geom: dict):
     cx = 0.5 * (min(xs) + max(xs))
     cy = 0.5 * (min(ys) + max(ys))
     max_r = max((Vector((v.co.x - cx, v.co.y - cy)).length for v in bm.verts), default=1.0) or 1.0
-    front_bias = float(recipe_geom.get("front_bias", 0.9))
+    front_bias = float(recipe_geom.get("front_bias", 0.65))
     z_vals = [v.co.z for v in bm.verts]
     zmin, zmax = min(z_vals), max(z_vals)
+    zmid = 0.5 * (zmin + zmax)
     zspan = max(zmax - zmin, 1e-6)
 
     for v in bm.verts:
         r = Vector((v.co.x - cx, v.co.y - cy)).length / max_r
-        # Gentler power → wider pillowy dome (less cusp at center)
-        falloff = max(0.0, 1.0 - r ** 1.45)
+        falloff = max(0.0, 1.0 - r ** 1.35)
         falloff = falloff * falloff * (3 - 2 * falloff)
-        zn = (v.co.z - zmin) / zspan
-        side = front_bias * zn + (1.0 - front_bias) * 0.45
-        v.co.z += inflate * falloff * side
+        # signed outward from midplane (−1 back, +1 front)
+        signed = (v.co.z - zmid) / (0.5 * zspan)
+        if abs(signed) < 1e-6:
+            signed = 1.0  # mid ring → nudge forward
+        # favor front slightly for camera-facing plumpness
+        amp = inflate * falloff * (0.55 + 0.45 * abs(signed))
+        if signed >= 0:
+            amp *= (0.5 + 0.5 * front_bias) / max(front_bias, 0.5)
+        else:
+            amp *= (1.5 - 0.5 * front_bias)
+        v.co.z += amp * (1.0 if signed >= 0 else -1.0)
 
     bm.to_mesh(mesh_obj.data)
     bm.free()

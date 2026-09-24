@@ -13,7 +13,7 @@ from lab.export import write_metadata
 from lab.geometry import build_geometry, clear_scene
 from lab.interpret import interpret_doodle
 from lab.lighting import setup_lighting
-from lab.materials import assign_materials, add_gummy_bubbles
+from lab.materials import assign_materials, add_gummy_bubbles, apply_fiber_fringe
 from lab.normalize import normalize_doodle
 from lab.parse_input import load_stroke_json
 from lab.render import configure_render, render_still
@@ -85,6 +85,10 @@ def run_pipeline(
         # Gummy signature bubbles (style material flag only — no semantic invention)
         try:
             add_gummy_bubbles(objects, recipe)
+        except Exception:
+            pass
+        try:
+            apply_fiber_fringe(objects, recipe)
         except Exception:
             pass
         setup_lighting(recipe)

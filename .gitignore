@@ -31,7 +31,6 @@ out/renders/
 out/renders_variants/
 out/derivatives/
 out/contact_sheets/
-out/v2/
 **/*.png
 !**/.gitkeep
 
@@ -61,12 +60,14 @@ docs/refs/recipe-pages/
 # Golden preview rasters (JSON is source of truth)
 corpus/golden/*_preview.png
 
-# Keep V2 iteration logs/summaries tracked (PNGs stay ignored)
-!out/v2/
-!out/v2/**/
-out/v2/**
-!out/v2/**/*.md
-!out/v2/**/*.csv
-!out/v2/**/*.json
-!out/v2/**/NOTES.md
-!out/v2/ITERATION_LOG.md
+
+# V2 quality-pass: ignore PNG/binaries under out/v2 but keep text summaries
+out/v2/**/*.png
+out/v2/**/*.jpg
+out/v2/**/*.webp
+out/v2/**/renders/
+out/v2/**/derivatives/
+out/v2/**/contact_sheets/
+out/v2/**/logs/
+out/v2/_sil/
+out/v2/smoke_*.png
