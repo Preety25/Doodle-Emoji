@@ -199,6 +199,7 @@ def edit_image(
     prompt: str,
     out_png: Path,
     style_ref_path: Path | None = None,
+    style_ref_paths: list | None = None,
     resolution: str = DEFAULT_RESOLUTION,
     quality: str = DEFAULT_QUALITY,
     n: int = DEFAULT_N,
@@ -206,7 +207,10 @@ def edit_image(
     prefer_multi_image: bool = True,
     allow_single_fallback: bool = True,
 ) -> dict:
-    """Call xAI image edits. Prefer multi-image (doodle + style ref); fall back on 400.
+    """Call xAI image edits. Prefer multi-image (doodle + style ref(s)); fall back on 400/422.
+
+    style_ref_paths: optional list of style reference images (preferred when set).
+    style_ref_path: single style ref (backward compatible). If both given, style_ref_paths wins.
 
     Returns a metadata dict. Never includes the API key.
     """
@@ -225,18 +229,29 @@ def edit_image(
         return {"ok": False, "error": f"doodle missing: {doodle_path}", "model": MODEL}
 
     doodle_uri = file_to_data_uri(doodle_path)
-    style_uri = None
-    n_inputs = 1
-    if style_ref_path is not None:
-        style_ref_path = Path(style_ref_path)
-        if not style_ref_path.is_file():
-            return {"ok": False, "error": f"style ref missing: {style_ref_path}", "model": MODEL}
-        style_uri = file_to_data_uri(style_ref_path)
-        n_inputs = 2
+
+    # Normalize style refs to a list of Paths
+    style_paths: list[Path] = []
+    if style_ref_paths:
+        style_paths = [Path(p) for p in style_ref_paths]
+    elif style_ref_path is not None:
+        style_paths = [Path(style_ref_path)]
+    for sp in style_paths:
+        if not sp.is_file():
+            return {"ok": False, "error": f"style ref missing: {sp}", "model": MODEL}
+    style_uris = [file_to_data_uri(sp) for sp in style_paths]
+    style_uri = style_uris[0] if style_uris else None
+    # Keep first path in style_ref_path for backward-compatible success meta
+    if style_paths:
+        style_ref_path = style_paths[0]
+    n_inputs = 1 + len(style_uris)
 
     attempts: list[dict] = []
-    cost = approx_cost_usd(n_input_images=n_inputs if (prefer_multi_image and style_uri) else 1,
-                           resolution=resolution, quality=quality)
+    cost = approx_cost_usd(
+        n_input_images=n_inputs if (prefer_multi_image and style_uris) else 1,
+        resolution=resolution,
+        quality=quality,
+    )
 
     def _try(label: str, image_field: Any, n_in: int) -> dict:
         payload = _base_payload(
@@ -281,49 +296,75 @@ def edit_image(
 
     # 1) Multi-image: prefer working `images` array shape first (prior smoke:
     # `image` as list-of-maps → 422; `images` array succeeded).
-    if prefer_multi_image and style_uri is not None:
-        payload_images = _base_payload(
-            prompt, resolution=resolution, quality=quality, n=n, response_format=response_format
-        )
-        payload_images["images"] = [_image_obj(doodle_uri), _image_obj(style_uri)]
-        status, parsed, raw, latency_ms = _post_json(payload_images, api_key)
-        attempt = {
-            "label": "multi_images_array",
-            "http_status": status,
-            "latency_ms": int(latency_ms),
-            "n_input_images": 2,
-            "request_shape": "images:list",
-        }
-        if status == 200 and isinstance(parsed, dict):
-            img_bytes, extract_meta = _extract_image_bytes(parsed)
-            attempt["extract"] = {k: v for k, v in extract_meta.items() if k != "revised_prompt"}
-            if "revised_prompt" in extract_meta:
-                attempt["revised_prompt_len"] = len(str(extract_meta["revised_prompt"]))
-            if img_bytes:
-                out_png.parent.mkdir(parents=True, exist_ok=True)
-                out_png.write_bytes(img_bytes)
-                attempt["ok"] = True
-                attempt["bytes"] = len(img_bytes)
-                attempts.append(attempt)
-                cost2 = approx_cost_usd(n_input_images=2, resolution=resolution, quality=quality)
-                return _success(out_png, attempt, attempts, cost2, doodle_path, style_ref_path,
-                                resolution, quality, n, prompt)
-            attempt["ok"] = False
-            attempt["error"] = extract_meta.get("extract_error", "no image bytes")
-        else:
-            attempt["ok"] = False
-            attempt["error"] = _safe_error_body(
-                raw if not isinstance(parsed, dict) else json.dumps(
-                    {k: parsed[k] for k in parsed if k != "data"} if parsed else {}
+    # When multiple style refs are provided, try doodle+all first; on recoverable
+    # 422 (e.g. max 2 images), retry doodle+first style ref only.
+    if prefer_multi_image and style_uris:
+        image_plans: list[tuple[str, list]] = [
+            (
+                f"multi_images_array_n{1 + len(style_uris)}",
+                [_image_obj(doodle_uri), *[_image_obj(u) for u in style_uris]],
+            )
+        ]
+        if len(style_uris) > 1:
+            image_plans.append(
+                (
+                    "multi_images_array_n2_fallback",
+                    [_image_obj(doodle_uri), _image_obj(style_uris[0])],
                 )
             )
-            if isinstance(parsed, dict) and "error" in parsed:
-                err = parsed["error"]
-                if isinstance(err, dict):
-                    attempt["error"] = _safe_error_body(str(err.get("message") or err))
-                else:
-                    attempt["error"] = _safe_error_body(str(err))
-        attempts.append(attempt)
+
+        for label, img_list in image_plans:
+            payload_images = _base_payload(
+                prompt, resolution=resolution, quality=quality, n=n, response_format=response_format
+            )
+            payload_images["images"] = img_list
+            status, parsed, raw, latency_ms = _post_json(payload_images, api_key)
+            attempt = {
+                "label": label,
+                "http_status": status,
+                "latency_ms": int(latency_ms),
+                "n_input_images": len(img_list),
+                "request_shape": "images:list",
+                "style_ref_count": len(img_list) - 1,
+            }
+            if status == 200 and isinstance(parsed, dict):
+                img_bytes, extract_meta = _extract_image_bytes(parsed)
+                attempt["extract"] = {k: v for k, v in extract_meta.items() if k != "revised_prompt"}
+                if "revised_prompt" in extract_meta:
+                    attempt["revised_prompt_len"] = len(str(extract_meta["revised_prompt"]))
+                if img_bytes:
+                    out_png.parent.mkdir(parents=True, exist_ok=True)
+                    out_png.write_bytes(img_bytes)
+                    attempt["ok"] = True
+                    attempt["bytes"] = len(img_bytes)
+                    attempts.append(attempt)
+                    cost_n = approx_cost_usd(
+                        n_input_images=len(img_list), resolution=resolution, quality=quality
+                    )
+                    return _success(
+                        out_png, attempt, attempts, cost_n, doodle_path, style_ref_path,
+                        resolution, quality, n, prompt,
+                        style_refs_used=[str(p) for p in style_paths[: len(img_list) - 1]],
+                    )
+                attempt["ok"] = False
+                attempt["error"] = extract_meta.get("extract_error", "no image bytes")
+            else:
+                attempt["ok"] = False
+                attempt["error"] = _safe_error_body(
+                    raw if not isinstance(parsed, dict) else json.dumps(
+                        {k: parsed[k] for k in parsed if k != "data"} if parsed else {}
+                    )
+                )
+                if isinstance(parsed, dict) and "error" in parsed:
+                    err = parsed["error"]
+                    if isinstance(err, dict):
+                        attempt["error"] = _safe_error_body(str(err.get("message") or err))
+                    else:
+                        attempt["error"] = _safe_error_body(str(err))
+            attempts.append(attempt)
+            # Only continue to fewer-image plan on recoverable shape / validation errors
+            if status not in (400, 422):
+                break
 
         # Recoverable shape retry: some drafts accept `image` as a list of maps.
         # Known-failing on current API (422) — only try if `images` failed.
@@ -333,8 +374,11 @@ def edit_image(
             2,
         )
         if result.get("ok"):
-            return _success(out_png, result, attempts, cost, doodle_path, style_ref_path,
-                            resolution, quality, n, prompt)
+            return _success(
+                out_png, result, attempts, cost, doodle_path, style_ref_path,
+                resolution, quality, n, prompt,
+                style_refs_used=[str(style_paths[0])],
+            )
 
     # 2) Fall back: single-image (doodle only). Caller should use a prompt that
     # describes style in text when multi-image is unavailable.
@@ -346,7 +390,7 @@ def edit_image(
                             resolution, quality, n, prompt, fallback_single=True)
     else:
         cost1 = approx_cost_usd(
-            n_input_images=2 if (prefer_multi_image and style_uri) else 1,
+            n_input_images=(1 + len(style_uris)) if (prefer_multi_image and style_uris) else 1,
             resolution=resolution,
             quality=quality,
         )
@@ -382,6 +426,7 @@ def _success(
     n: int,
     prompt: str,
     fallback_single: bool = False,
+    style_refs_used: list | None = None,
 ) -> dict:
     extract = result.get("extract") or {}
     return {
@@ -399,8 +444,12 @@ def _success(
         "output_bytes": result.get("bytes"),
         "input_doodle": str(doodle_path),
         "input_style_ref": str(style_ref_path) if style_ref_path else None,
+        "input_style_refs": style_refs_used or (
+            [str(style_ref_path)] if style_ref_path else []
+        ),
         "fallback_single_image": fallback_single,
         "attempt_label": result.get("label"),
+        "n_input_images": result.get("n_input_images") or cost.get("breakdown", {}).get("input_images"),
         "attempts": [
             {k: v for k, v in a.items() if k != "error" or not a.get("ok")}
             for a in attempts

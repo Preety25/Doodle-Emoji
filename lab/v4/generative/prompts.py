@@ -223,3 +223,126 @@ def build_fidelity_prompt(
         )
     # Variant A: explicitly no blueprint summary
     return "\n".join(parts).rstrip() + "\n"
+
+
+# --- V4.1 Jelly-Gummy fidelity + delight ---------------------------------
+
+JELLY_GUMMY_STYLE = (
+    "Playful juicy soft inflated tactile translucent candy/jelly material with rich internal "
+    "volume, subtle trapped bubbles, wet controlled highlights, colorful slightly exaggerated "
+    "forms, premium toy/candy/3D-illustration feel. Delightful 3D sticker/object presentation — "
+    "NOT a photoreal food photo, NOT a grocery-product shot. Allow delight in softness, volume, "
+    "highlights, material, color, bubbles, and subtle perspective. "
+    "Do NOT invent identity, silhouette, structure, or component count."
+)
+
+
+def build_jelly_gummy_style_block(*, multi_image: bool = True, n_style_refs: int = 2) -> str:
+    """Describe Jelly-Gummy look; names IMAGE_1.. when multi-image style refs are attached."""
+    if multi_image and n_style_refs >= 2:
+        return (
+            "Material / look: match <IMAGE_1> and <IMAGE_2> (Jelly-Gummy style references). "
+            f"{JELLY_GUMMY_STYLE}\n"
+            "Use <IMAGE_0> as the PRIMARY visual source (the user's raw doodle). "
+            "Transfer only material/look/presentation cues from the style refs; do NOT copy "
+            "the style refs' subject silhouettes or identities."
+        )
+    if multi_image and n_style_refs == 1:
+        return (
+            "Material / look: match <IMAGE_1> (Jelly-Gummy style reference). "
+            f"{JELLY_GUMMY_STYLE}\n"
+            "Use <IMAGE_0> as the PRIMARY visual source (the user's raw doodle). "
+            "Transfer only material/look/presentation cues from <IMAGE_1>; do NOT copy "
+            "<IMAGE_1>'s subject silhouette or identity."
+        )
+    return f"Material / look (text-described Jelly-Gummy): {JELLY_GUMMY_STYLE}"
+
+
+SUBJECT_V41_LINES = {
+    "06_rocket": (
+        "Subject cue (light naming only): rocket. "
+        "Preserve the doodle's actual body, pointed nose, separate left/right fins, and window "
+        "placement/count. Polish the user's rocket — do not redesign into a generic NASA rocket. "
+        "Do NOT add flame or exhaust (not drawn)."
+    ),
+    "07_teddy": (
+        "Subject cue (light naming only): teddy bear. "
+        "Preserve the doodle's actual head, separate ears, body, and any drawn face marks "
+        "(eyes only if present). Polish the user's teddy — do not invent snout/mouth/limbs/"
+        "arms/legs/clothing or replace with a generic teddy."
+    ),
+}
+
+
+def build_fidelity_v41_prompt(
+    *,
+    variant: str,
+    source_id: str,
+    strict_bp: dict | None = None,
+    multi_image: bool = True,
+    n_style_refs: int = 2,
+) -> str:
+    """V4.1 Jelly-Gummy fidelity prompt.
+
+    Variant A: raw doodle + Jelly-Gummy style refs only (NO semantic blueprint text).
+    Variant B: raw doodle + STRICT four-field constraints + Jelly-Gummy style refs.
+    Never injects features_may_complete / old permissive blueprint text.
+    """
+    from lab.v4.strict_blueprint import strict_summary_for_prompt
+
+    variant = variant.upper().strip()
+    if variant not in ("A", "B"):
+        raise ValueError(f"variant must be A or B, got {variant!r}")
+
+    subject_line = SUBJECT_V41_LINES.get(
+        source_id,
+        f"Subject cue from doodle id {source_id}: polish the user's drawing, do not redesign.",
+    )
+    style_block = build_jelly_gummy_style_block(
+        multi_image=multi_image, n_style_refs=n_style_refs
+    )
+
+    preserve_block = (
+        'Core principle: "Understand what I drew, then make MY version beautiful."\n'
+        "Conservative on: identity, silhouette, structure, component count, proportions, "
+        "user asymmetry.\n"
+        "Expressive on: material, lighting, volume, surface, translucency, micro-detail, "
+        "presentation.\n"
+        "\n"
+        "Hard preserve:\n"
+        "- Overall silhouette and distinctive proportions from the doodle.\n"
+        "- Meaningful component relationships and user-specific asymmetry (do not mirror).\n"
+        "- Important features that exist in the original doodle only.\n"
+        "- Clean up roughness; do not redesign.\n"
+        "Do NOT invent:\n"
+        "- Decorative elements, text, scenery, unrelated accessories, extra components.\n"
+        "- Arbitrary facial features, limbs, or parts not present in the doodle.\n"
+        "- Background scene, ground plane, or cast/drop shadow.\n"
+    )
+
+    parts = [
+        "POLISH THE USER'S DOODLE. Do not replace it with a generic object.",
+        "Edit into a single centered sticker on a transparent / empty studio background.",
+        style_block,
+        "",
+        subject_line,
+        "",
+        preserve_block,
+    ]
+
+    if variant == "B":
+        if strict_bp is None:
+            raise ValueError("variant B requires strict_bp (four-field strict blueprint)")
+        summary = strict_summary_for_prompt(strict_bp)
+        parts.extend(
+            [
+                "",
+                "STRICT semantic constraints (TEXT only — four fields; doodle remains visual "
+                "source of truth). Do NOT treat inferred_components as permission to invent "
+                "geometry. allowed_completion is empty or very tight. forbidden_additions are "
+                "hard bans.\n"
+                f"{summary}",
+            ]
+        )
+    # Variant A: explicitly no semantic blueprint text
+    return "\n".join(parts).rstrip() + "\n"

@@ -92,3 +92,7 @@ out/v4/smoke/
 # V4 doodle-fidelity test outputs (prompts/meta/json copies + review stay local)
 out/v4/tests/
 out/v4/DOODLE_FIDELITY_REVIEW.md
+
+# V4.1 fidelity+delight pass outputs (rasters already covered by out/v4/**/*.png)
+out/v4/v41/
+out/v4/V41_FIDELITY_DELIGHT_REVIEW.md
