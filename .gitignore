@@ -60,3 +60,13 @@ docs/refs/recipe-pages/
 
 # Golden preview rasters (JSON is source of truth)
 corpus/golden/*_preview.png
+
+# Keep V2 iteration logs/summaries tracked (PNGs stay ignored)
+!out/v2/
+!out/v2/**/
+out/v2/**
+!out/v2/**/*.md
+!out/v2/**/*.csv
+!out/v2/**/*.json
+!out/v2/**/NOTES.md
+!out/v2/ITERATION_LOG.md
