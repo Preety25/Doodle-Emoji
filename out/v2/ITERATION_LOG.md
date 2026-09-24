@@ -34,3 +34,7 @@ Blender: 4.2.9 LTS via `xvfb-run -a` (`BLENDER_BIN=/workspace/tools/blender/blen
 - Benchmark 48/48. Holistic ~6.8/10 (was ~6.0). **BEST so far.**
 - Remaining: residual ripples, plush≈clay, gummy bubble punch.
 - Details: `out/v2/iter_03/NOTES.md`
+
+### iter_04 — abandoned (plateau / plush regression)
+- More smooth + softer lights + stronger plush fringe → plush read glossier (worse).
+- Stopped early. **BEST = iter_03** (`e61387c`).
