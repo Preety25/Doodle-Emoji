@@ -1,0 +1,135 @@
+{
+  "style_id": "glossy",
+  "style_version": "v2",
+  "transform_version": "tx.v2.0",
+  "display_name": "Glossy",
+  "description": "Hard-candy / polished resin / vinyl toy \u2014 crisp speculars, mild SSS, opaque.",
+  "geometry": {
+    "version": "v2",
+    "extrusion_wall": 0.11,
+    "inflation_amount": 0.15,
+    "front_bias": 0.9,
+    "bevel_fillet": 0.05,
+    "bevel_resolution": 6,
+    "bevel_profile": 0.72,
+    "curve_resolution_u": 28,
+    "tube_radius_open": 0.045,
+    "min_feature_thickness": 0.03,
+    "remesh": false,
+    "voxel_size": 0.022,
+    "smooth_iters": 2,
+    "smooth_factor": 0.25,
+    "soft_junctions": true,
+    "solidify_offset": 0.65,
+    "junction_smooth_iters": 1,
+    "junction_smooth_factor": 0.25,
+    "subsurf": true,
+    "subsurf_levels": 2,
+    "chaikin_iters": 2
+  },
+  "material": {
+    "use_stroke_color": true,
+    "fallback_color": [
+      1.0,
+      0.55,
+      0.65,
+      1.0
+    ],
+    "roughness": 0.045,
+    "specular": 0.75,
+    "metallic": 0.0,
+    "clearcoat": 1.0,
+    "clearcoat_roughness": 0.025,
+    "transmission": 0.02,
+    "ior": 1.45,
+    "sss_weight": 0.18,
+    "sss_radius": [
+      0.08,
+      0.05,
+      0.04
+    ],
+    "sss_color": [
+      1.0,
+      0.7,
+      0.75
+    ],
+    "bump_strength": 0.0,
+    "bubbles": false
+  },
+  "lighting": {
+    "world_strength": 0.28,
+    "key": {
+      "energy": 130,
+      "size": 2.2,
+      "color": [
+        1.0,
+        0.98,
+        0.95
+      ],
+      "loc": [
+        2.6,
+        -2.4,
+        4.0
+      ]
+    },
+    "fill": {
+      "energy": 35,
+      "size": 4.5,
+      "color": [
+        0.85,
+        0.9,
+        1.0
+      ],
+      "loc": [
+        -3.0,
+        -1.2,
+        2.0
+      ]
+    },
+    "rim": {
+      "energy": 45,
+      "size": 2.0,
+      "color": [
+        1.0,
+        0.95,
+        1.0
+      ],
+      "loc": [
+        -1.2,
+        3.4,
+        2.3
+      ]
+    },
+    "ao_boost": 12
+  },
+  "camera": {
+    "mode": "front_perspective",
+    "lens": 80,
+    "padding": 0.16,
+    "yaw_deg": 4,
+    "pitch_deg": 3,
+    "z_lift": 0.04,
+    "loc": [
+      0.0,
+      -3.6,
+      0.9
+    ],
+    "look_at": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "presentation": {
+    "transparent_bg": true,
+    "padding": 0.16,
+    "sticker_ready": true
+  },
+  "render": {
+    "engine": "BLENDER_EEVEE_NEXT",
+    "resolution": 1024,
+    "samples": 40,
+    "film_transparent": true,
+    "bloom": false
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "subject": "messy_incomplete",
+  "confidence": "LOW",
+  "completion_budget": 0,
+  "transform_mode": "polish",
+  "planner": "heuristic_v2_stub",
+  "notes": "Filled by lab.semantic_plan at runtime; stub mirrors expected cues."
+}

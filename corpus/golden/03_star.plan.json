@@ -1,0 +1,8 @@
+{
+  "subject": "star",
+  "confidence": "HIGH",
+  "completion_budget": 1,
+  "transform_mode": "polish",
+  "planner": "heuristic_v2_stub",
+  "notes": "Filled by lab.semantic_plan at runtime; stub mirrors expected cues."
+}

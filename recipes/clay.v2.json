@@ -1,0 +1,138 @@
+{
+  "style_id": "clay",
+  "style_version": "v2",
+  "transform_version": "tx.v2.0",
+  "display_name": "Clay",
+  "description": "Play-Doh / polymer clay: matte chalky, pressed lumps, soft diffuse, micro bump.",
+  "geometry": {
+    "version": "v2",
+    "extrusion_wall": 0.12,
+    "inflation_amount": 0.16,
+    "front_bias": 0.9,
+    "bevel_fillet": 0.055,
+    "bevel_resolution": 6,
+    "bevel_profile": 0.72,
+    "curve_resolution_u": 28,
+    "tube_radius_open": 0.055,
+    "min_feature_thickness": 0.03,
+    "remesh": false,
+    "voxel_size": 0.022,
+    "smooth_iters": 2,
+    "smooth_factor": 0.25,
+    "soft_junctions": true,
+    "junction_smooth_iters": 1,
+    "solidify_offset": 0.65,
+    "junction_smooth_factor": 0.25,
+    "subsurf": true,
+    "subsurf_levels": 2,
+    "chaikin_iters": 2
+  },
+  "material": {
+    "use_stroke_color": true,
+    "fallback_color": [
+      0.92,
+      0.62,
+      0.48,
+      1.0
+    ],
+    "roughness": 0.78,
+    "specular": 0.12,
+    "metallic": 0.0,
+    "clearcoat": 0.0,
+    "clearcoat_roughness": 0.3,
+    "transmission": 0.0,
+    "ior": 1.45,
+    "sss_weight": 0.48,
+    "sss_radius": [
+      0.18,
+      0.1,
+      0.08
+    ],
+    "sss_color": [
+      1.0,
+      0.72,
+      0.55
+    ],
+    "bump_strength": 0.025,
+    "bump_scale": 18.0,
+    "bump_detail": 6.0,
+    "bump_distance": 0.06,
+    "bubbles": false
+  },
+  "lighting": {
+    "world_strength": 0.4,
+    "key": {
+      "energy": 85,
+      "size": 5.0,
+      "color": [
+        1.0,
+        0.92,
+        0.82
+      ],
+      "loc": [
+        2.4,
+        -2.5,
+        3.6
+      ]
+    },
+    "fill": {
+      "energy": 55,
+      "size": 5.5,
+      "color": [
+        0.95,
+        0.9,
+        0.85
+      ],
+      "loc": [
+        -2.8,
+        -1.2,
+        2.2
+      ]
+    },
+    "rim": {
+      "energy": 28,
+      "size": 3.5,
+      "color": [
+        1.0,
+        0.95,
+        0.9
+      ],
+      "loc": [
+        -1.2,
+        3.0,
+        2.0
+      ]
+    },
+    "ao_boost": 18
+  },
+  "camera": {
+    "mode": "front_perspective",
+    "lens": 80,
+    "padding": 0.16,
+    "yaw_deg": 4,
+    "pitch_deg": 3,
+    "z_lift": 0.04,
+    "loc": [
+      0.0,
+      -3.5,
+      0.85
+    ],
+    "look_at": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "presentation": {
+    "transparent_bg": true,
+    "padding": 0.16,
+    "sticker_ready": true
+  },
+  "render": {
+    "engine": "BLENDER_EEVEE_NEXT",
+    "resolution": 1024,
+    "samples": 40,
+    "film_transparent": true,
+    "bloom": false
+  }
+}

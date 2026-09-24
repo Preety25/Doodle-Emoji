@@ -1,4 +1,4 @@
-"""Orchestrate stylization inside Blender."""
+"""Orchestrate stylization inside Blender (V1 + V2)."""
 from __future__ import annotations
 
 import json
@@ -7,16 +7,17 @@ import traceback
 from pathlib import Path
 from typing import Any
 
-from lab import TRANSFORMATION_VERSION
+from lab import TRANSFORM_VERSION
 from lab.camera import setup_camera
 from lab.export import write_metadata
 from lab.geometry import build_geometry, clear_scene
 from lab.interpret import interpret_doodle
 from lab.lighting import setup_lighting
-from lab.materials import assign_materials
+from lab.materials import assign_materials, add_gummy_bubbles
 from lab.normalize import normalize_doodle
-from lab.parse_input import load_stroke_json, validate_stroke_dict
+from lab.parse_input import load_stroke_json
 from lab.render import configure_render, render_still
+from lab.semantic_plan import plan_doodle
 from lab.styles import load_recipe
 
 
@@ -37,11 +38,23 @@ def run_pipeline(
     output_png.parent.mkdir(parents=True, exist_ok=True)
     doodle_id = doodle_id or doodle_path.stem
 
+    # Resolve transform version from recipe when present
+    recipe_preview = None
+    try:
+        recipe_preview = load_recipe(style_id, style_version)
+    except Exception:
+        recipe_preview = {}
+    tx_ver = (
+        recipe_preview.get("transform_version")
+        or (TRANSFORM_VERSION if not str(style_version).startswith("v2") else "tx.v2.0")
+    )
+
     meta: dict[str, Any] = {
         "doodle_id": doodle_id,
         "style_id": style_id,
         "style_version": style_version,
-        "transformation_version": TRANSFORMATION_VERSION,
+        "transformation_version": tx_ver,
+        "transform_version": tx_ver,
         "seed": seed,
         "success": False,
         "error": None,
@@ -53,14 +66,27 @@ def run_pipeline(
         raw = load_stroke_json(doodle_path)
         raw["seed"] = seed
         recipe = load_recipe(style_id, style_version)
-        padding = float(recipe.get("camera", {}).get("padding", 0.15))
+        recipe["_seed"] = seed
         # use half of camera padding for normalize so framing has room
+        padding = float(recipe.get("camera", {}).get("padding", 0.15))
         norm = normalize_doodle(raw, y_flip=True, padding=0.08)
         interp = interpret_doodle(norm)
+
+        # Semantic plan BEFORE style (Recognition-Assisted Polish)
+        plan = plan_doodle(norm)
+        # Face rule: never invent faces from style
+        interp["invent_faces"] = False
+        interp["preserve_user_faces"] = plan.get("preserve_user_faces", False)
+        interp["plan"] = plan
 
         clear_scene(bpy)
         objects = build_geometry(interp["components"], recipe)
         assign_materials(objects, recipe)
+        # Gummy signature bubbles (style material flag only — no semantic invention)
+        try:
+            add_gummy_bubbles(objects, recipe)
+        except Exception:
+            pass
         setup_lighting(recipe)
         setup_camera(recipe, objects)
         configure_render(recipe, output_png)
@@ -70,6 +96,12 @@ def run_pipeline(
         meta["n_components"] = interp["n_components"]
         meta["n_closed"] = interp["n_closed"]
         meta["n_open"] = interp["n_open"]
+        meta["subject"] = plan.get("subject")
+        meta["confidence"] = plan.get("confidence")
+        meta["completion_budget"] = plan.get("completion_budget")
+        meta["transform_mode"] = plan.get("transform_mode")
+        meta["planner"] = plan.get("planner")
+        meta["cues"] = plan.get("cues")
         if output_png.exists():
             meta["file_size_bytes"] = output_png.stat().st_size
             meta["width"] = int(recipe.get("render", {}).get("resolution", 1024))

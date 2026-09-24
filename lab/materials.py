@@ -110,3 +110,52 @@ def assign_materials(objects: list, recipe: dict):
             obj.data.materials[0] = mat
         else:
             obj.data.materials.append(mat)
+
+
+def add_gummy_bubbles(objects: list, recipe: dict):
+    """Sparse internal air-bubble spheres for gummy signature (geo approx, not texture-only)."""
+    bpy = _ensure_bpy()
+    mat_cfg = recipe.get("material", {})
+    if not mat_cfg.get("bubbles"):
+        return
+    density = float(mat_cfg.get("bubble_density", 0.35))
+    scale = float(mat_cfg.get("bubble_scale", 0.018))
+    import random
+    rng = random.Random(int(recipe.get("_seed", 1)))
+    for obj in objects:
+        # bbox
+        import mathutils
+        bbox = [obj.matrix_world @ mathutils.Vector(c) for c in obj.bound_box]
+        min_c = mathutils.Vector((min(v.x for v in bbox), min(v.y for v in bbox), min(v.z for v in bbox)))
+        max_c = mathutils.Vector((max(v.x for v in bbox), max(v.y for v in bbox), max(v.z for v in bbox)))
+        diag = (max_c - min_c).length
+        n = max(0, min(14, int(4 + density * 10 * diag)))
+        for i in range(n):
+            # bias toward interior
+            t = [rng.uniform(0.25, 0.75) for _ in range(3)]
+            loc = mathutils.Vector((
+                min_c.x + t[0] * (max_c.x - min_c.x),
+                min_c.y + t[1] * (max_c.y - min_c.y),
+                min_c.z + t[2] * (max_c.z - min_c.z),
+            ))
+            r = scale * rng.uniform(0.6, 1.4)
+            bpy.ops.mesh.primitive_uv_sphere_add(radius=r, location=loc, segments=12, ring_count=8)
+            bub = bpy.context.view_layer.objects.active
+            bub.name = f"bubble_{obj.name}_{i}"
+            # glassy bubble material
+            mat = bpy.data.materials.new(name=f"bubmat_{bub.name}")
+            mat.use_nodes = True
+            nt = mat.node_tree
+            nodes = nt.nodes
+            bsdf = nodes.get("Principled BSDF")
+            if bsdf:
+                bsdf.inputs["Base Color"].default_value = (1, 1, 1, 1)
+                bsdf.inputs["Roughness"].default_value = 0.05
+                if "Transmission Weight" in bsdf.inputs:
+                    bsdf.inputs["Transmission Weight"].default_value = 0.9
+                elif "Transmission" in bsdf.inputs:
+                    bsdf.inputs["Transmission"].default_value = 0.9
+                if "IOR" in bsdf.inputs:
+                    bsdf.inputs["IOR"].default_value = 1.15
+            bub.data.materials.append(mat)
+            bpy.ops.object.shade_smooth()

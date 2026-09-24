@@ -1,0 +1,66 @@
+{
+  "version": "golden.v2",
+  "count": 12,
+  "doodles": [
+    {
+      "id": "01_blob",
+      "category": "blob",
+      "path": "corpus/golden/01_blob.json"
+    },
+    {
+      "id": "02_heart",
+      "category": "heart",
+      "path": "corpus/golden/02_heart.json"
+    },
+    {
+      "id": "03_star",
+      "category": "star",
+      "path": "corpus/golden/03_star.json"
+    },
+    {
+      "id": "04_face",
+      "category": "face",
+      "path": "corpus/golden/04_face.json"
+    },
+    {
+      "id": "05_plant",
+      "category": "plant",
+      "path": "corpus/golden/05_plant.json"
+    },
+    {
+      "id": "06_rocket",
+      "category": "rocket",
+      "path": "corpus/golden/06_rocket.json"
+    },
+    {
+      "id": "07_teddy",
+      "category": "teddy",
+      "path": "corpus/golden/07_teddy.json"
+    },
+    {
+      "id": "08_flower",
+      "category": "flower",
+      "path": "corpus/golden/08_flower.json"
+    },
+    {
+      "id": "09_rose",
+      "category": "rose",
+      "path": "corpus/golden/09_rose.json"
+    },
+    {
+      "id": "10_open_stroke",
+      "category": "open_stroke",
+      "path": "corpus/golden/10_open_stroke.json"
+    },
+    {
+      "id": "11_multi_part",
+      "category": "multi_part",
+      "path": "corpus/golden/11_multi_part.json"
+    },
+    {
+      "id": "12_messy_incomplete",
+      "category": "messy_incomplete",
+      "path": "corpus/golden/12_messy_incomplete.json"
+    }
+  ]
+}
