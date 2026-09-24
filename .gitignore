@@ -1,7 +1,62 @@
-out/renders/*.png
-out/renders_variants/*.png
-out/derivatives/
-out/contact_sheets/*.png
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+
+# OS / editor
 .DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Secrets / local env (never commit)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets/
+
+# Machine-specific / local tooling
+.blender/
+*.blend1
+
+# Generated renders & regenerable image artifacts
+out/renders/
+out/renders_variants/
+out/derivatives/
+out/contact_sheets/
+out/v2/
+**/*.png
+!**/.gitkeep
+
+# Keep curated art-direction refs that are source material (not pipeline output)
+!docs/refs/**/*.png
+
+# Large archives & bundles
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+out/*.tar.gz
+out/stylization_lab_deliverables.tar.gz
+
+# Logs
+*.log
+out/metrics/logs/
+
+# Large source PDF (keep locally / share separately; not first-push)
+docs/refs/recipe-pdf/
+**/*Recipe*.pdf
+**/*recipe*.pdf
+
+# Recipe page dumps (regenerable from PDF)
+docs/refs/recipe-pages/
+
+# Golden preview rasters (JSON is source of truth)
+corpus/golden/*_preview.png
