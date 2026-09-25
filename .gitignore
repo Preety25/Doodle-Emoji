@@ -109,3 +109,10 @@ out/v4/v43/**
 !out/v4/v43/STYLE_SYSTEM.md
 !out/v4/v43/TRANSFORM_REVIEW.md
 !out/v4/v43/FAILURE_REPORT.md
+
+# V4.4 semantic parsing pack (keep review/system MDs; rasters already covered by out/v4/**/*.png)
+out/v4/v44/**
+!out/v4/v44/
+!out/v4/v44/SEMANTIC_PARSING.md
+!out/v4/v44/REGRESSION_REVIEW.md
+!out/v4/v44/FAILURE_REPORT.md

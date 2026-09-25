@@ -605,3 +605,243 @@ def build_v43_multi_style_prompt(
         f"Style separation: this output must read unmistakably as {style.upper()} — "
         "not the other three styles.\n"
     )
+
+
+# --- V4.4 semantic parsing + style guardrails -----------------------------
+
+V44_NORTH_STAR = (
+    'Core: "Draw something messy. We understand what you meant and make YOUR version beautiful."'
+)
+
+V44_PRIORITY = (
+    "PRIORITY HIERARCHY (binding — lower never overrides higher):\n"
+    "1) original doodle  2) stroke-role analysis  3) semantic recognition\n"
+    "4) transform rules  5) style reference  6) generative creativity."
+)
+
+V44_ELASTIC = (
+    "ELASTIC FIDELITY: improve execution aggressively; preserve intent conservatively.\n"
+    "OK: smooth contours; improve proportion/alignment; close broken structural gaps; "
+    "dimensional/plump/toy-like; rich material finish; enrich saturation/depth.\n"
+    "NOT OK: replace identity; invent unsupported parts/faces; change component count; "
+    "copy style-sheet subjects/poses/faces/palette assignment/decorative objects; "
+    "treat interior marks as independent floating objects."
+)
+
+V44_STYLIZED_DIM = (
+    "STYLIZED DIMENSIONALITY: premium 3D sticker / designer toy / soft sculpture / "
+    "candy illustration — plump charming volume. "
+    "NOT photoreal, NOT product photo, NOT CAD extrusion, NOT flat bevel slab, "
+    "NOT scene/floor/text."
+)
+
+V44_STYLE_LOOK = {
+    "gummy": (
+        "GUMMY material ONLY: juicy soft inflated translucent gelatin candy; internal color "
+        "depth; suspended micro-bubbles; wet rounded highlights; luminous soft edges. "
+        "NOT glass, NOT hard opaque resin, NOT clay, NOT plush."
+    ),
+    "clay": (
+        "CLAY material ONLY: soft-sculpted matte polymer clay / play-doh; puffy handmade; "
+        "subtle surface variation; restrained warm diffuse highlights; opaque soft body. "
+        "NOT translucent gummy, NOT fuzzy plush, NOT clearcoat plastic, NOT ceramic photo."
+    ),
+    "plush": (
+        "PLUSH material ONLY: stuffed fuzzy short-pile soft toy; visible nap/fuzz; soft "
+        "compression; cozy fabric. NOT smooth clay, NOT glossy plastic, NOT translucent jelly."
+    ),
+    "glossy": (
+        "GLOSSY material ONLY: SOLID opaque polished resin / lacquered vinyl / hard-candy toy "
+        "(NOT translucent jelly); rich saturated color; crisp clearcoat specular highlights; "
+        "hard polished toy finish. NOT gummy transparency, NOT metal/glass product photo, "
+        "NOT matte clay, NOT fuzzy plush."
+    ),
+}
+
+V44_GLOSSY_HARD_RULE = (
+    "GLOSSY HARD RULE (non-negotiable):\n"
+    "Always fully reconstruct as a SOLID opaque polished resin/vinyl object.\n"
+    "Pipeline: fill closed regions → make volumetric → apply clearcoat speculars.\n"
+    "NEVER wireframe / outline / line sculpture / gray extruded line / hollow contour / "
+    "tube drawing / unfilled stroke paths. If the doodle is line art, you must still "
+    "produce a filled solid toy — not a 3D stroke extrusion."
+)
+
+V44_STYLE_REF_ANTI_COPY = (
+    "STYLE SHEET = MATERIAL ONLY (HARD):\n"
+    "The style-reference image teaches ONLY form language, material, lighting, surface, "
+    "dimensionality, and personality of the FINISH.\n"
+    "Do NOT copy from the style sheet: subject identity, component count, pose, faces, "
+    "palette assignment, decorative objects, rainbow/multicolor candy colors, or any "
+    "sheet object silhouette.\n"
+    "Style sheet is MATERIAL ONLY; do not copy any subject/object/colors from the "
+    "reference sheet onto the user's doodle."
+)
+
+
+def build_v44_semantic_prompt(
+    recognition: dict,
+    style: str,
+    *,
+    multi_image: bool = True,
+    n_style_refs: int = 1,
+) -> str:
+    """V4.4 prompt: semantic lock + stroke roles + face/color/glossy guardrails."""
+    from lab.v4.stroke_roles import (
+        interior_mark_instruction,
+        open_stroke_instruction,
+        stroke_roles_prompt_block,
+        broken_contour_instruction,
+    )
+
+    style = style.lower().strip()
+    if style not in V44_STYLE_LOOK:
+        raise ValueError(f"unknown style {style!r}; expected one of {sorted(V44_STYLE_LOOK)}")
+
+    sid = recognition.get("id", "?")
+    hyp = recognition.get("subject_hypothesis", "unknown subject")
+    conf = recognition.get("confidence", 0.0)
+    observed = recognition.get("observed_components") or []
+    inferred = recognition.get("inferred_components") or []
+    allowed = recognition.get("allowed_completion") or []
+    forbidden = recognition.get("forbidden_additions") or []
+    faces_observed = bool(recognition.get("faces_observed", False))
+    face_policy = recognition.get("face_policy") or (
+        "Invent eyes/mouth/cheeks/blush ONLY if the doodle has them."
+    )
+    color_lock = recognition.get("color_lock") or {}
+    identity_lock = recognition.get("identity_lock")
+    glossy_extra = recognition.get("glossy_construction")
+    stroke_roles = recognition.get("stroke_roles") or []
+
+    def _bullets(items):
+        if not items:
+            return "- (none)"
+        return "\n".join(f"- {x}" for x in items)
+
+    if multi_image and n_style_refs >= 1:
+        style_header = (
+            f"PRIMARY = <IMAGE_0> (user doodle — visual + semantic source of truth).\n"
+            f"<IMAGE_1> is the {style.upper()} STYLE SHEET.\n"
+            f"{V44_STYLE_REF_ANTI_COPY}"
+        )
+    else:
+        style_header = (
+            "PRIMARY = <IMAGE_0> (user doodle). Style described in text only.\n"
+            + V44_STYLE_REF_ANTI_COPY
+        )
+
+    face_block = (
+        f"FACE POLICY (semantic, not style): faces_observed={faces_observed}.\n"
+        f"{face_policy}\n"
+        "Faces are SEMANTIC not style: invent eyes/mouth/cheeks/blush ONLY if doodle has them."
+    )
+    if not faces_observed:
+        face_block += (
+            "\nHARD BAN for this doodle: no eyes, no mouth, no cheeks, no blush, no kawaii face."
+        )
+
+    color_notes = color_lock.get("notes") or recognition.get("color_notes") or ""
+    color_rels = color_lock.get("preserve_relationships") or []
+    color_block = (
+        "COLOR LOCK:\n"
+        "- Preserve the user's important color relationships from the doodle.\n"
+        "- Enriching saturation/depth is OK.\n"
+        "- Do NOT import style-sheet palettes (no rainbow / RGB candy colors from glossy sheet).\n"
+    )
+    if color_notes:
+        color_block += f"- Notes: {color_notes}\n"
+    if color_rels:
+        color_block += "Preserve relationships:\n" + _bullets(color_rels) + "\n"
+
+    identity_block = ""
+    if identity_lock:
+        identity_block = f"\nIDENTITY LOCK:\n{identity_lock}\n"
+
+    glossy_block = ""
+    if style == "glossy":
+        glossy_block = f"\n{V44_GLOSSY_HARD_RULE}\n"
+        if glossy_extra:
+            glossy_block += f"Doodle-specific glossy note: {glossy_extra}\n"
+
+    stroke_block = ""
+    if stroke_roles:
+        stroke_block = "\n" + stroke_roles_prompt_block(stroke_roles, style) + "\n"
+    else:
+        stroke_block = (
+            "\n"
+            + interior_mark_instruction(style)
+            + "\n"
+            + broken_contour_instruction()
+            + "\n"
+            + open_stroke_instruction()
+            + "\n"
+        )
+
+    # Special attention lines for known failure modes
+    special = ""
+    if sid == "u06":
+        special = (
+            "\nSPECIAL (u06): The green zigzag is an INTERIOR SURFACE MARK ON THE MUG body — "
+            "NOT an independent green ribbon/tube/grass. Embed/paint/mold it onto the mug "
+            f"material ({style}).\n"
+        )
+    elif sid == "u07":
+        special = (
+            "\nSPECIAL (u07): MUST remain a hat-person. Style sheets (esp. clay) contain "
+            "flowers — IGNORE flower subjects. Wide loops = hat brim; keep person body.\n"
+        )
+    elif sid == "u03" and style == "glossy":
+        special = (
+            "\nSPECIAL (u03/glossy): MUST be a solid polished volumetric head — "
+            "NO gray wire / extruded outline sculpture.\n"
+        )
+    elif sid == "u01" and style == "plush":
+        special = (
+            "\nSPECIAL (u01/plush): MUST NOT invent a face. Mug + steam only. "
+            "No eyes/mouth/blush.\n"
+        )
+    elif sid == "u08" and style == "glossy":
+        special = (
+            "\nSPECIAL (u08/glossy): MUST NOT import RGB/multicolor sheet palette onto the "
+            "three tops. Coherent plant colors only.\n"
+        )
+
+    return (
+        f"{V44_NORTH_STAR}\n"
+        f"POLISH THE USER'S DOODLE into a single centered isolated {style} toy/sticker object.\n"
+        "Clean presentation on transparent or pure empty void. No scene, floor, ground, text, "
+        "drop shadow, or environment.\n"
+        f"{style_header}\n"
+        f"Material / look: {V44_STYLE_LOOK[style]}\n"
+        f"{V44_STYLIZED_DIM}\n"
+        "\n"
+        f"{V44_PRIORITY}\n"
+        f"{V44_ELASTIC}\n"
+        f"{identity_block}"
+        f"{glossy_block}"
+        f"{stroke_block}"
+        "\n"
+        "Semantic lock (recognized ONCE — same identity for all 4 styles):\n"
+        f"subject_hypothesis: {hyp}\n"
+        f"confidence: {conf}\n"
+        f"observed_components:\n{_bullets(observed)}\n"
+        f"inferred_components (volume/material hints ONLY — not invent permission):\n"
+        f"{_bullets(inferred)}\n"
+        f"allowed_completion:\n{_bullets(allowed)}\n"
+        f"forbidden_additions (HARD BANS):\n{_bullets(forbidden)}\n"
+        "\n"
+        f"{face_block}\n"
+        "\n"
+        f"{color_block}"
+        f"{special}"
+        "\n"
+        "Hard preserve:\n"
+        "- Absolute object identity from the doodle + semantic lock.\n"
+        "- Silhouette, proportions, component count, asymmetry, quirks.\n"
+        "- Interior marks stay on parent surfaces; open strokes stay open.\n"
+        "- Delight from volume/material ONLY — never from inventing identity or faces.\n"
+        "\n"
+        f"Style separation: this output must read unmistakably as {style.upper()} — "
+        "not the other three styles.\n"
+    )
