@@ -1,0 +1,25 @@
+{
+  "id": "glossy",
+  "display_name": "Glossy",
+  "description": "Solid opaque polished resin / lacquered vinyl toy sticker.",
+  "sheet": "docs/refs/style_sheets/sheet_glossy.png",
+  "sheet_fallbacks": [
+    "product/assets/style_sheets/sheet_glossy.png",
+    "docs/refs/ref1_glossy_blob.png"
+  ],
+  "form_language": "hard-toy plump resin volumes; filled solid — never wireframe strokes",
+  "material_language": "solid opaque polished resin / lacquered vinyl / hard-candy finish (NOT translucent jelly)",
+  "lighting_language": "crisp clearcoat specular highlights; hard polished rim",
+  "forbidden": [
+    "gummy transparency",
+    "metal/glass product photo",
+    "matte clay",
+    "fuzzy plush",
+    "wireframe / outline sculpture",
+    "importing rainbow/RGB sheet palettes"
+  ],
+  "prompt_fragments": {
+    "look": "GLOSSY material ONLY: SOLID opaque polished resin / lacquered vinyl / hard-candy toy (NOT translucent jelly); rich saturated color; crisp clearcoat specular highlights; hard polished toy finish. NOT gummy transparency, NOT metal/glass product photo, NOT matte clay, NOT fuzzy plush.",
+    "hard_rule": "Always fully reconstruct as a SOLID opaque polished resin/vinyl object. Fill closed regions → volumetric → clearcoat. NEVER wireframe / hollow contour / tube drawing."
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "plush",
+  "display_name": "Plush",
+  "description": "Stuffed short-pile soft-toy sticker.",
+  "sheet": "docs/refs/style_sheets/sheet_plush.png",
+  "sheet_fallbacks": [
+    "product/assets/style_sheets/sheet_plush.png"
+  ],
+  "form_language": "stuffed compression; cozy soft-toy silhouette with fuzzy fringe",
+  "material_language": "short-pile stuffed fabric; visible nap/fuzz; subtle seams only if natural",
+  "lighting_language": "soft fabric roll-off; no hard speculars",
+  "forbidden": [
+    "smooth clay",
+    "glossy plastic",
+    "translucent jelly",
+    "hard vinyl"
+  ],
+  "prompt_fragments": {
+    "look": "PLUSH material ONLY: stuffed fuzzy short-pile soft toy; visible nap/fuzz; soft compression; cozy fabric. NOT smooth clay, NOT glossy plastic, NOT translucent jelly."
+  }
+}

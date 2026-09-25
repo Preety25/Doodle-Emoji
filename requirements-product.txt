@@ -1,0 +1,3 @@
+# Production MVP foundation (product/)
+# Pillow optional but recommended for postprocess + stroke rasterization
+Pillow>=10.0.0
