@@ -149,17 +149,20 @@ Pillow recommended (`requirements-product.txt`). Real matting / edge cleanup is 
 ## 8. Mobile communication
 
 ```text
-Expo app (future)
-   │  POST doodle PNG (+ optional stroke JSON) + style
+Expo app (mobile/)
+   │  TransformRequest / TransformResult only
    ▼
-product/api  POST /v1/transform
-   ▼
-TransformService → prompt compiler → ImageProvider → postprocess
-   ▼
-final PNG (base64 / later URL) → app save/share
+mobile/src/transform getTransformClient()
+   ├─ MockTransformClient (default — bundled style samples, no network image API)
+   └─ HttpTransformClient → POST /v1/transform
+         ▼
+product/api → TransformService → ImageProvider (mock | xai)
+         ▼
+final PNG (base64 / url) → app save/share
 ```
 
 App must **not** embed prompts, style sheets, or provider SDKs/keys.
+See `mobile/README.md` for run instructions and env knobs (`EXPO_PUBLIC_TRANSFORM_MODE`).
 
 ---
 
@@ -188,11 +191,11 @@ IMAGE_PROVIDER=mock python3 -m product.api.app
 
 ---
 
-## 11. Remaining before Expo can start
+## 11. Remaining after Expo MVP shell
 
 1. Version and commit canonical style sheets.
 2. Lightweight recognition (VLM or heuristics) replacing default empty lock.
 3. Real background removal / sticker alpha finish.
 4. Auth + rate limits + durable image storage (URLs).
 5. Hosted deploy of `POST /v1/transform`.
-6. Then: Expo canvas + four style chips + result screen calling the API.
+6. Point mobile `EXPO_PUBLIC_TRANSFORM_MODE=http` at the hosted API (live xAI stays server-side).

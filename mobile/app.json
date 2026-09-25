@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "Dooji",
+    "slug": "dooji",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "dooji",
+    "newArchEnabled": true,
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-asset",
+      "expo-sharing"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "app.dooji.mobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FFF8F4",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "package": "app.dooji.mobile",
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "root": "src/app"
+      }
+    }
+  }
+}
