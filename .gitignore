@@ -102,3 +102,10 @@ out/v4/v42/
 out/v4/v42/V42_UNSEEN_REVIEW.md
 
 .xai_env
+
+# V4.3 multi-style pack (keep review/system MDs; rasters already covered by out/v4/**/*.png)
+out/v4/v43/**
+!out/v4/v43/
+!out/v4/v43/STYLE_SYSTEM.md
+!out/v4/v43/TRANSFORM_REVIEW.md
+!out/v4/v43/FAILURE_REPORT.md

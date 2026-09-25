@@ -440,3 +440,168 @@ def build_v42_unseen_gummy_prompt(
         "- Soft rounded forms, squishy gelatin, internal glow, wet candy highlights, bubbles.\n"
         "- Prefer charming stylized 3D illustration over photorealism.\n"
     )
+
+
+# --- V4.3 multi-style transform (shared family + 4 styles) -----------------
+
+V43_NORTH_STAR = (
+    'Core: "Draw something messy. We understand what you meant and make YOUR version beautiful."'
+)
+
+V43_ELASTIC_FIDELITY = (
+    "ELASTIC FIDELITY:\n"
+    "Improve execution aggressively; preserve idea conservatively.\n"
+    "OK: smooth contours; improve symmetry/proportion/alignment/spacing/curvature; "
+    "clean noise; make dimensional/plump/toy-like; rich material finish.\n"
+    "NOT OK: replace with a generic category object; invent major unsupported parts "
+    "(extra fins/windows/limbs/faces/accessories); change identity or component count; "
+    "copy style-sheet subjects/poses/faces."
+)
+
+V43_STYLIZED_DIM = (
+    "STYLIZED DIMENSIONALITY (all styles): premium 3D sticker / designer toy / soft sculpture / "
+    "candy illustration — plump charming volume. "
+    "NOT photoreal, NOT product photo, NOT CAD extrusion, NOT flat bevel slab, NOT scene/floor/text."
+)
+
+V43_STYLE_LOOK = {
+    "gummy": (
+        "GUMMY material: juicy soft inflated translucent gelatin candy; internal color depth; "
+        "suspended micro-bubbles; wet rounded highlights; luminous soft edges; squishy tactile feel. "
+        "NOT glass/acrylic, NOT photoreal food, NOT hard opaque resin, NOT clay, NOT plush."
+    ),
+    "clay": (
+        "CLAY material: soft-sculpted matte polymer clay / play-doh; puffy handmade; subtle surface "
+        "variation; restrained warm diffuse highlights; opaque soft body. "
+        "NOT translucent gummy, NOT dirty/crumbly earth photo, NOT ceramic glaze photo, "
+        "NOT fuzzy plush, NOT clearcoat plastic."
+    ),
+    "plush": (
+        "PLUSH material: stuffed fuzzy short-pile soft toy; visible nap/fuzz texture; soft "
+        "compression; cozy fabric feel; clearly different from smooth clay. Subtle seams only if "
+        "natural. NOT smooth clay, NOT glossy plastic, NOT translucent jelly, NOT hard vinyl."
+    ),
+    "glossy": (
+        "GLOSSY material: SOLID opaque polished resin / lacquered vinyl / hard-candy toy "
+        "(NOT translucent jelly/gummy); rich saturated color; crisp clearcoat specular highlights; "
+        "hard polished toy finish. NOT gummy transparency, NOT metal/glass/ceramic product photo, "
+        "NOT matte clay, NOT fuzzy plush."
+    ),
+}
+
+V43_STYLE_SHEET_NOTE = {
+    "gummy": (
+        "PRIMARY = <IMAGE_0> (user doodle — visual source of truth). "
+        "Additional image(s) are GUMMY STYLE SHEETS for visual language / material ONLY — "
+        "never copy sheet objects, poses, faces, or silhouettes."
+    ),
+    "clay": (
+        "PRIMARY = <IMAGE_0> (user doodle — visual source of truth). "
+        "<IMAGE_1> is a CLAY STYLE SHEET for visual language / material ONLY — "
+        "never copy sheet objects, poses, faces, or silhouettes."
+    ),
+    "plush": (
+        "PRIMARY = <IMAGE_0> (user doodle — visual source of truth). "
+        "<IMAGE_1> is a PLUSH STYLE SHEET for visual language / material ONLY — "
+        "never copy sheet objects, poses, faces, or silhouettes."
+    ),
+    "glossy": (
+        "PRIMARY = <IMAGE_0> (user doodle — visual source of truth). "
+        "<IMAGE_1> is the GLOSSY STYLE SHEET (solid polished resin/vinyl/hard-candy toy with "
+        "sharp clearcoat speculars) for visual language / material ONLY — never copy sheet "
+        "objects, poses, faces, or silhouettes. Stay SOLID opaque; do NOT become translucent jelly."
+    ),
+}
+
+
+def build_v43_multi_style_prompt(
+    recognition: dict,
+    style: str,
+    *,
+    multi_image: bool = True,
+    n_style_refs: int = 1,
+) -> str:
+    """V4.3 elastic-fidelity + style-specific prompt. Same recognition for all styles."""
+    style = style.lower().strip()
+    if style not in V43_STYLE_LOOK:
+        raise ValueError(f"unknown style {style!r}; expected one of {sorted(V43_STYLE_LOOK)}")
+
+    sid = recognition.get("id", "?")
+    hyp = recognition.get("subject_hypothesis", "unknown subject")
+    conf = recognition.get("confidence", 0.0)
+    observed = recognition.get("observed_components") or []
+    inferred = recognition.get("inferred_components") or []
+    allowed = recognition.get("allowed_completion") or []
+    forbidden = recognition.get("forbidden_additions") or []
+    color_notes = recognition.get("color_notes")
+
+    look = V43_STYLE_LOOK[style]
+
+    if not multi_image or n_style_refs <= 0:
+        style_header = (
+            "PRIMARY = <IMAGE_0> (user doodle). Style described in text only. "
+            + V43_STYLE_LOOK[style]
+        )
+    elif style == "gummy" and n_style_refs >= 2:
+        style_header = (
+            V43_STYLE_SHEET_NOTE["gummy"]
+            + " <IMAGE_1> and <IMAGE_2> are gummy style sheets."
+        )
+    elif style in ("gummy", "clay", "plush", "glossy"):
+        style_header = V43_STYLE_SHEET_NOTE[style]
+        if style == "gummy":
+            style_header = (
+                V43_STYLE_SHEET_NOTE["gummy"] + " <IMAGE_1> is the primary gummy style sheet."
+            )
+    else:
+        style_header = V43_STYLE_SHEET_NOTE[style]
+
+    def _bullets(items):
+        if not items:
+            return "- (none)"
+        return "\n".join(f"- {x}" for x in items)
+
+    low_conf_extra = ""
+    if float(conf) < 0.75 or "zigzag" in str(hyp).lower() or sid == "u06":
+        low_conf_extra = (
+            "\nLOW-CONFIDENCE RULE: Do NOT reinvent as a different object "
+            "(no snake/dragon/face). Keep a soft tubular ribbon that faithfully follows "
+            "the drawn zigzag path and peak count. Preserve the green color family.\n"
+        )
+
+    color_line = ""
+    if color_notes:
+        color_line = f"\nColor family: {color_notes}. Preserve the doodle's color family if colored.\n"
+
+    return (
+        f"{V43_NORTH_STAR}\n"
+        f"POLISH THE USER'S DOODLE into a single centered isolated {style} toy/sticker object.\n"
+        "Clean presentation on transparent or pure empty void. No scene, floor, ground, text, "
+        "drop shadow, or environment.\n"
+        f"{style_header}\n"
+        f"Material / look: {look}\n"
+        f"{V43_STYLIZED_DIM}\n"
+        "\n"
+        f"{V43_ELASTIC_FIDELITY}\n"
+        "\n"
+        "Recognition (STRICT — same semantics for every style; encode and obey):\n"
+        f"subject_hypothesis: {hyp}\n"
+        f"confidence: {conf}\n"
+        f"observed_components:\n{_bullets(observed)}\n"
+        f"inferred_components (volume/material hints ONLY — not permission to invent geometry):\n"
+        f"{_bullets(inferred)}\n"
+        f"allowed_completion:\n{_bullets(allowed)}\n"
+        f"forbidden_additions (HARD BANS):\n{_bullets(forbidden)}\n"
+        f"{color_line}"
+        f"{low_conf_extra}"
+        "\n"
+        "Hard preserve (doodle fidelity / authorship):\n"
+        "- Absolute object identity from the doodle.\n"
+        "- Silhouette, proportions, component count, asymmetry, quirks.\n"
+        "- Color family if the doodle is colored.\n"
+        "- Delight comes from volume/material ONLY — do NOT add eyes, mouths, limbs, or decor "
+        "unless those marks are observed in the doodle.\n"
+        "\n"
+        f"Style separation: this output must read unmistakably as {style.upper()} — "
+        "not the other three styles.\n"
+    )
